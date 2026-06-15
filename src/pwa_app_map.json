@@ -1,0 +1,416 @@
+{
+  "appName": "Rural Routes Explorer",
+  "baseline": "iOS v30C/v30B lineage",
+  "tabs": [
+    "Explore",
+    "Map",
+    "Scan",
+    "Rewards",
+    "Profile",
+    "Admin"
+  ],
+  "pwaRoutes": [
+    {
+      "path": "/",
+      "component": "AdventureCenter"
+    },
+    {
+      "path": "/adventures/:id",
+      "component": "AdventureDetail"
+    },
+    {
+      "path": "/adventures/turtle-trail",
+      "component": "TurtleTrailAdventure"
+    },
+    {
+      "path": "/turtles/:id",
+      "component": "TurtleDetail"
+    },
+    {
+      "path": "/behind-the-shell",
+      "component": "BehindTheShellGallery"
+    },
+    {
+      "path": "/artists",
+      "component": "ArtistGallery"
+    },
+    {
+      "path": "/collections/:id",
+      "component": "CollectionGrid"
+    },
+    {
+      "path": "/scan",
+      "component": "UniversalQRScanner"
+    },
+    {
+      "path": "/profile",
+      "component": "Profile"
+    },
+    {
+      "path": "/profile/showcase",
+      "component": "ScreenshotShowcase"
+    },
+    {
+      "path": "/admin/assets",
+      "component": "AdminAssetManager"
+    },
+    {
+      "path": "/admin/routes",
+      "component": "AdminRouteBuilder"
+    },
+    {
+      "path": "/admin/export",
+      "component": "AdminExportImport"
+    },
+    {
+      "path": "/admin/settings",
+      "component": "AdminDemoSettings"
+    }
+  ],
+  "towns": [
+    {
+      "id": "caldwell",
+      "name": "Caldwell",
+      "tagline": "Wild West heritage + Borderlands stories",
+      "highlights": "Turtle Trail, Fallen Badges, Border Queen Museum, Czech heritage, Carnegie Library",
+      "coordinates": "37.032, -97.606",
+      "stampSymbol": "\ud83e\udd20"
+    },
+    {
+      "id": "wellington",
+      "name": "Wellington",
+      "tagline": "Glass, quilts, downtown stops",
+      "highlights": "National Glass Museum, BeeHive Quilt Shop, downtown dining, county seat",
+      "coordinates": "37.265, -97.397",
+      "stampSymbol": "\ud83c\udfdb\ufe0f"
+    },
+    {
+      "id": "southhaven",
+      "name": "South Haven",
+      "tagline": "Buffalo, murals, open prairie",
+      "highlights": "Live buffalo, buffalo mural, border stop",
+      "coordinates": "37.049, -97.405",
+      "stampSymbol": "\ud83d\udc03"
+    },
+    {
+      "id": "argonia",
+      "name": "Argonia",
+      "tagline": "First woman mayor + rocket energy",
+      "highlights": "Susanna Salter House, rocket competition",
+      "coordinates": "37.267, -97.765",
+      "stampSymbol": "\ud83d\ude80"
+    },
+    {
+      "id": "conway",
+      "name": "Conway Springs",
+      "tagline": "Springs, water, and rural welcome",
+      "highlights": "Historic Spring House, rural hospitality",
+      "coordinates": "37.391, -97.642",
+      "stampSymbol": "\ud83d\udca7"
+    },
+    {
+      "id": "belleplaine",
+      "name": "Belle Plaine",
+      "tagline": "Botanical beauty on the prairie",
+      "highlights": "Bartlett Arboretum, tulip season, gardens",
+      "coordinates": "37.394, -97.281",
+      "stampSymbol": "\ud83c\udf37"
+    },
+    {
+      "id": "oxford",
+      "name": "Oxford",
+      "tagline": "The Old Mill and river-town character",
+      "highlights": "Old Mill, historic architecture",
+      "coordinates": "37.274, -97.168",
+      "stampSymbol": "\u2699\ufe0f"
+    },
+    {
+      "id": "mulvane",
+      "name": "Mulvane",
+      "tagline": "Gateway stops and entertainment",
+      "highlights": "Kansas Star Casino, Wichita gateway, events",
+      "coordinates": "37.475, -97.244",
+      "stampSymbol": "\ud83c\udfb2"
+    }
+  ],
+  "turtles": [
+    {
+      "id": "turtle1",
+      "assetId": "TURT-01",
+      "number": 1,
+      "name": "Outlaw",
+      "artist": "Nelson P. Nelson",
+      "theme": "Community Partnership",
+      "latitude": 37.031325,
+      "longitude": -97.611305,
+      "qrPayload": "ruralroutes://unlock/turtle/1",
+      "storyNote": "South Sumner Outlaws; Bluejay + Cardinal eyes."
+    },
+    {
+      "id": "turtle2",
+      "assetId": "TURT-02",
+      "number": 2,
+      "name": "Bartholomew",
+      "artist": "Laura Ireland",
+      "theme": "Children & Community",
+      "latitude": 37.032519,
+      "longitude": -97.610083,
+      "qrPayload": "ruralroutes://unlock/turtle/2",
+      "storyNote": "USD 360 student handprints and Caldwell community colors."
+    },
+    {
+      "id": "turtle3",
+      "assetId": "TURT-03",
+      "number": 3,
+      "name": "Sunny",
+      "artist": "Laura Ireland",
+      "theme": "Kansas Sunflower",
+      "latitude": 37.032608,
+      "longitude": -97.604088,
+      "qrPayload": "ruralroutes://unlock/turtle/3",
+      "storyNote": "Kansas sunflower and prairie identity."
+    },
+    {
+      "id": "turtle4",
+      "assetId": "TURT-04",
+      "number": 4,
+      "name": "Sonny",
+      "artist": "Jessy Wencel-Potts",
+      "theme": "Prairie Life",
+      "latitude": 37.032422,
+      "longitude": -97.607055,
+      "qrPayload": "ruralroutes://unlock/turtle/4",
+      "storyNote": "Sunflowers, wheat, windmill, sky, rural landscape."
+    },
+    {
+      "id": "turtle5",
+      "assetId": "TURT-05",
+      "number": 5,
+      "name": "Ampersand",
+      "artist": "Jill Kuehny",
+      "theme": "Community Connections",
+      "latitude": 37.032203,
+      "longitude": -97.606828,
+      "qrPayload": "ruralroutes://unlock/turtle/5",
+      "storyNote": "Connection among people, ideas, organizations, and generations."
+    },
+    {
+      "id": "turtle6",
+      "assetId": "TURT-06",
+      "number": 6,
+      "name": "Cosmo",
+      "artist": "Dr. Jen Kern",
+      "theme": "Creativity & Imagination",
+      "latitude": 37.032647,
+      "longitude": -97.606863,
+      "qrPayload": "ruralroutes://unlock/turtle/6",
+      "storyNote": "Colorful geometric panels and dot patterns."
+    },
+    {
+      "id": "turtle7",
+      "assetId": "TURT-07",
+      "number": 7,
+      "name": "Earp",
+      "artist": "Sammie Strnad",
+      "theme": "Caldwell Identity",
+      "latitude": 37.032617,
+      "longitude": -97.607728,
+      "qrPayload": "ruralroutes://unlock/turtle/7",
+      "storyNote": "Located at City Hall; official welcome/community identity turtle."
+    },
+    {
+      "id": "turtle8",
+      "assetId": "TURT-08",
+      "number": 8,
+      "name": "Doris",
+      "artist": "Brooke Cink",
+      "theme": "Bluejay Pride",
+      "latitude": 37.0335,
+      "longitude": -97.607042,
+      "qrPayload": "ruralroutes://unlock/turtle/8",
+      "storyNote": "Blue-and-white Bluejay school pride."
+    },
+    {
+      "id": "turtle9",
+      "assetId": "TURT-09",
+      "number": 9,
+      "name": "Mosey",
+      "artist": "Brooke Cink",
+      "theme": "Mosaic Art",
+      "latitude": 37.030361,
+      "longitude": -97.607033,
+      "qrPayload": "ruralroutes://unlock/turtle/9",
+      "storyNote": "Mosaic shell and floral pattern."
+    },
+    {
+      "id": "turtle10",
+      "assetId": "TURT-10",
+      "number": 10,
+      "name": "Blanche",
+      "artist": "Brooke Cink",
+      "theme": "Prairie Folk Art",
+      "latitude": 37.030686,
+      "longitude": -97.606797,
+      "qrPayload": "ruralroutes://unlock/turtle/10",
+      "storyNote": "Warm prairie folk-art, floral medallions, quilt-like repetition."
+    },
+    {
+      "id": "turtle11",
+      "assetId": "TURT-11",
+      "number": 11,
+      "name": "Polka Dot",
+      "artist": "Brenda Lebeda-Almond",
+      "theme": "Czech Heritage",
+      "latitude": 37.031495,
+      "longitude": -97.606858,
+      "qrPayload": "ruralroutes://unlock/turtle/11",
+      "storyNote": "Czech folk-art motifs, Czech-American heritage."
+    },
+    {
+      "id": "turtle12",
+      "assetId": "TURT-12",
+      "number": 12,
+      "name": "Ernie",
+      "artist": "Brenda Lebeda-Almond",
+      "theme": "Family Farm Heritage",
+      "latitude": 37.031497,
+      "longitude": -97.607033,
+      "qrPayload": "ruralroutes://unlock/turtle/12",
+      "storyNote": "Named for artist\u2019s father, Ernie, a local farmer."
+    }
+  ],
+  "storyPaths": [
+    {
+      "id": "community",
+      "name": "Community",
+      "turtles": [
+        "Outlaw",
+        "Bartholomew",
+        "Doris",
+        "Ampersand"
+      ],
+      "achievement": "Community Builder"
+    },
+    {
+      "id": "heritage",
+      "name": "Heritage",
+      "turtles": [
+        "Earp",
+        "Polka Dot",
+        "Ernie"
+      ],
+      "achievement": "Heritage Keeper"
+    },
+    {
+      "id": "prairie",
+      "name": "Kansas & Prairie",
+      "turtles": [
+        "Sunny",
+        "Sonny",
+        "Ernie"
+      ],
+      "achievement": "Prairie Explorer"
+    },
+    {
+      "id": "creativity",
+      "name": "Creativity",
+      "turtles": [
+        "Cosmo",
+        "Mosey",
+        "Blanche"
+      ],
+      "achievement": "Creative Spirit"
+    },
+    {
+      "id": "behind-the-shell",
+      "name": "Behind the Shell",
+      "turtles": [
+        "Outlaw",
+        "Bartholomew",
+        "Sunny",
+        "Sonny",
+        "Ampersand",
+        "Cosmo",
+        "Earp",
+        "Doris",
+        "Mosey",
+        "Blanche",
+        "Polka Dot",
+        "Ernie"
+      ],
+      "achievement": "Art Historian"
+    }
+  ],
+  "collections": [
+    {
+      "id": "turtles",
+      "name": "Turtle Trail",
+      "count": 12,
+      "payloadPrefix": "ruralroutes://unlock/turtle/"
+    },
+    {
+      "id": "fallenbadges",
+      "name": "Fallen Badges",
+      "count": 8,
+      "payloadPrefix": "ruralroutes://unlock/fallenbadge/"
+    },
+    {
+      "id": "borderqueen",
+      "name": "Women of the Border Queen",
+      "count": 12,
+      "payloadPrefix": "ruralroutes://unlock/borderqueen/"
+    },
+    {
+      "id": "gunfighters",
+      "name": "Gamblers & Gunfighters",
+      "count": 8,
+      "payloadPrefix": "ruralroutes://unlock/gunfighter/"
+    },
+    {
+      "id": "legends",
+      "name": "Borderlands Legends",
+      "count": 8,
+      "payloadPrefix": "ruralroutes://unlock/legend/"
+    }
+  ],
+  "achievements": [
+    "First Footsteps",
+    "Turtle Spotter",
+    "Shell Seeker",
+    "Keeper of the Shell",
+    "Art Historian",
+    "Caldwell Explorer",
+    "Town Traveler",
+    "Borderlands Explorer",
+    "Storykeeper",
+    "The Long Way Home",
+    "Found Your Place in the Circle"
+  ],
+  "adminTools": [
+    "Asset Manager",
+    "Batch Capture",
+    "Route Builder",
+    "QR Builder",
+    "Export / Import",
+    "Demo Settings",
+    "Reset Admin Data",
+    "Complete Demo Wipe"
+  ],
+  "demoIntegrity": {
+    "easyDemoUnlocks": "ON allows shortcuts; OFF requires real GPS radius and real QR scan",
+    "gpsOverride": "admin-only",
+    "qrDemoButtons": "admin-only"
+  },
+  "exportFormat": {
+    "type": "zip",
+    "files": [
+      "assets.json",
+      "artists.json",
+      "routes.json",
+      "collections.json",
+      "achievements.json",
+      "photos/",
+      "sketches/"
+    ]
+  }
+}

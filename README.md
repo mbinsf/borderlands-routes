@@ -1,19 +1,13 @@
-# Rural Routes Phase 3B Integrated PWA
+# Rural Routes Explorer — Phase 4 iOS-Parity PWA
 
-Correction build: keeps Rural Routes as the overall site and makes Caldwell Turtle Trail Complete Edition a featured collection inside it.
+Best-effort PWA conversion using the iOS v30C project and iOS→PWA handoff map as references.
 
-Includes:
-- Main Rural Routes home
-- Towns framework
-- Collections framework
-- Caldwell town hub
-- Turtle Trail Complete Edition
-- Behind the Shell
-- Meet the Artists
-- Story Paths
-- Near Me
-- Map of all turtles
-- Passport and achievement demo
-- QR unlock demo
+## Includes
+- iOS-style tabs: Explore, Map, Scan, Rewards, Profile, Admin
+- Full Rural Routes shell, not a Turtle-only app
+- Caldwell hub and Turtle Trail Complete Edition inside the broader site
+- Turtle Trail map, near-me distance sorter, Behind the Shell, Meet the Artists, Story Paths, passport progress
+- Collections preserved: Fallen Badges, Women of the Border Queen, Gamblers & Gunfighters, Borderlands Legends, Mural Quest
+- Universal QR scanner simulator and admin/demo tools
 
-Deploy with GitHub Desktop: replace repo contents, commit, push. Vercel will redeploy.
+Upload the contents of this folder to GitHub Desktop, commit, and push.
