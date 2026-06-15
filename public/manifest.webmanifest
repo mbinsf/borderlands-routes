@@ -1,13 +1,1 @@
-{
-  "name": "Rural Routes Explorer",
-  "short_name": "Rural Routes",
-  "description": "Explore rural towns, side quests, QR unlocks, collectibles, maps, and local stories.",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#101828",
-  "theme_color": "#101828",
-  "orientation": "portrait-primary",
-  "icons": [
-    { "src": "/assets/icon-1024.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" }
-  ]
-}
+{"name":"Rural Routes Explorer","short_name":"Rural Routes","description":"Tourism quests, maps, QR unlocks, passport stamps, and collectible history cards.","start_url":"/","display":"standalone","background_color":"#0b1220","theme_color":"#111827","icons":[{"src":"/assets/icon.png","sizes":"512x512","type":"image/png"},{"src":"/assets/logo.jpg","sizes":"512x512","type":"image/jpeg"}]}

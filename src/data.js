@@ -1,63 +1,53 @@
 export const towns = [
-  { id:'caldwell', name:'Caldwell', tagline:'Wild West heritage + Borderlands stories', lat:37.032, lng:-97.606, description:'Frontier history, public art, Czech heritage, local festivals, historic architecture, and deep Caldwell side quests.', highlights:['Turtle Trail','Fallen Badges of Caldwell','Border Queen Museum','Czech heritage','Carnegie Library'] },
-  { id:'wellington', name:'Wellington', tagline:'Glass, quilts, downtown stops', lat:37.265, lng:-97.397, description:'A central Sumner County stop with museums, local shops, and easy I-35 access.', highlights:['National Glass Museum','BeeHive Quilt Shop','Downtown dining','County seat'] },
-  { id:'southhaven', name:'South Haven', tagline:'Buffalo, murals, open prairie', lat:37.049, lng:-97.405, description:'A border stop anchored by live buffalo, a photo-worthy mural, and rural character.', highlights:['Live buffalo','Buffalo mural','Kansas/Oklahoma border','Small town photo stop'] },
-  { id:'argonia', name:'Argonia', tagline:'First woman mayor + rocket energy', lat:37.267, lng:-97.765, description:'A proud history town connected to Susanna Salter and modern rocket competition energy.', highlights:['Susanna Salter House','First woman mayor','Rocket competition'] },
-  { id:'conway', name:'Conway Springs', tagline:'Springs, water, and rural welcome', lat:37.391, lng:-97.642, description:'Western Sumner County stop built around the Spring House and local water stories.', highlights:['Historic Spring House','Small town main street','Rural hospitality'] },
-  { id:'belleplaine', name:'Belle Plaine', tagline:'Botanical beauty on the prairie', lat:37.394, lng:-97.281, description:'A garden and festival-friendly town anchored by Bartlett Arboretum and seasonal color.', highlights:['Bartlett Arboretum','Tulip season','Gardens','Photography'] },
-  { id:'oxford', name:'Oxford', tagline:'The Old Mill and river-town character', lat:37.274, lng:-97.168, description:'A quiet heritage stop with Old Mill history and a strong sense of place.', highlights:['Old Mill','Historic architecture','River-town feel'] },
-  { id:'mulvane', name:'Mulvane', tagline:'Gateway stops and entertainment', lat:37.475, lng:-97.244, description:'A northeast gateway with casino traffic, visitor services, and quick access from Wichita and I-35.', highlights:['Kansas Star Casino','Gateway from Wichita','Food and lodging','Events'] }
+  {id:'caldwell', name:'Caldwell', label:'Featured demo town', tagline:'The Border Queen: public art, turtle sculptures, lawmen, frontier women, and walkable quests.', lat:37.0334, lng:-97.6067, hero:'Turtle Trail • Mural Quest • Fallen Badges', accent:'gold'},
+  {id:'wellington', name:'Wellington', label:'County seat', tagline:'Rail heritage, shops, events, civic stories, and route connections.', lat:37.2653, lng:-97.3717, hero:'Downtown Discoveries', accent:'blue'},
+  {id:'argonia', name:'Argonia', label:'Trailblazers', tagline:'First woman mayor, rockets, prairie innovation, and big stories from a small town.', lat:37.2670, lng:-97.7656, hero:'Argonia Trailblazers', accent:'green'},
+  {id:'south-haven', name:'South Haven', label:'Gateway', tagline:'An I-35 gateway stop with backroad access and rural-route day trip potential.', lat:37.0492, lng:-97.4056, hero:'Gateway Stops', accent:'blue'},
+  {id:'conway-springs', name:'Conway Springs', label:'Community stop', tagline:'Small-town gathering place with local food, events, and route loops.', lat:37.3903, lng:-97.6423, hero:'Community Stops', accent:'green'},
+  {id:'belle-plaine', name:'Belle Plaine', label:'Garden + Main', tagline:'Historic downtown, Bartlett Arboretum, and family-friendly day-trip appeal.', lat:37.3945, lng:-97.2814, hero:'Garden & Main Street', accent:'gold'},
+  {id:'oxford', name:'Oxford', label:'River town', tagline:'Brick streets, Walnut River setting, and heritage-route stops.', lat:37.2742, lng:-97.1689, hero:'River Town Stops', accent:'blue'},
+  {id:'mulvane', name:'Mulvane', label:'Connector', tagline:'Route connector with murals, food stops, and family discoveries.', lat:37.4745, lng:-97.2439, hero:'Connector Quest', accent:'green'}
 ];
 
-export const routes = [
-  { id:'wildwest', name:'Wild West Route', theme:'History', duration:'2–3.5 hours', miles:'~120 miles', towns:['Caldwell','South Haven','Wellington'], description:'Frontier stories, borderland grit, museums, murals, and towns with a strong sense of place.', stops:['Caldwell Wild West stop','South Haven buffalo mural','Wellington museum stop'] },
-  { id:'heritage', name:'Heritage & Handmade', theme:'Culture', duration:'Half day', miles:'~95 miles', towns:['Wellington','Caldwell','Belle Plaine','Oxford'], description:'Glass, quilts, gardens, Czech heritage, local making, and small-town downtowns.', stops:['National Glass Museum','Kolache side quest','Bartlett Arboretum','Old Mill'] },
-  { id:'family', name:'Family Side Quest Loop', theme:'Family', duration:'1–2 hours', miles:'Flexible', towns:['Caldwell','South Haven','Argonia'], description:'Short, playful stops designed for photos, badges, and kid-friendly discovery.', stops:['Cowboy selfie','Buffalo photo','Rocket story','Passport stamp'] },
-  { id:'i35', name:'I-35 Quick Exit', theme:'Traveler', duration:'60–180 minutes', miles:'Flexible', towns:['Wellington','Mulvane','Caldwell'], description:'A fast detour for road-trippers who have one to three hours and want a memorable stop.', stops:['Food stop','Photo stop','Local shopping','Earn a digital stamp'] }
+const turtleNames = [
+ ['Outlaw','Nelson P. Nelson'],['Bartholomew','Laura Ireland'],['Sunny','Laura Ireland'],['Sonny','Jasinta (Jessy) Wencel-Potts'],['Ampersand','Jill Kuehny'],['Cosmo','Dr. Jen Kern'],['Earp','Sammie Strnad'],['Doris','Brooke Cink'],['Mosey','Brooke Cink'],['Blanche','Brooke Cink'],['Polka Dot','Brenda Lebeda-Almond'],['Ernie','Brenda Lebeda-Almond']
 ];
+export const turtles = turtleNames.map((t,i)=>({id:`turtle-${i+1}`, number:i+1, name:t[0], subtitle:`Artist: ${t[1]}`, artist:t[1], town:'Caldwell', points:50, type:'Turtle Sculpture', qr:`RR:TURTLE:${i+1}`, image:`/assets/turtle${String(i+1).padStart(2,'0')}-photo.jpeg`, sketch:`/assets/turtle${String(i+1).padStart(2,'0')}-sketch.png`, hint:'Look for a painted ornate box turtle sculpture near a public-facing stop in Caldwell.'}));
 
-export const quests = [
-  { id:'turtles', title:'Turtle Trail', town:'Caldwell', total:12, type:'QR Quest', reward:'Turtle Master badge', description:'Find all 12 Caldwell turtle sculptures, meet the artists, and unlock Turtle Trail progress.' },
-  { id:'fallen', title:'Fallen Badges of Caldwell', town:'Caldwell', total:8, type:'QR Quest', reward:'Fallen Badges Historian', description:'Collect all 8 Caldwell lawman cards and remember the badges who served during the Border Queen era.' },
-  { id:'women', title:'Women of the Border Queen', town:'Caldwell', total:12, type:'QR Quest', reward:'Border Queen Historian', description:'Collect 12 frontier women cards connected to Caldwell and the Border Queen era.' },
-  { id:'muralquest', title:'Caldwell Mural Quest', town:'Caldwell', total:20, type:'Photo Quest', reward:'Caldwell Mural Master', description:'Follow a walking mural tour through Main Street, alleys, ghost signs, public art, and bonus indoor murals.' },
-  { id:'characters', title:'Characters of Caldwell', town:'Caldwell', total:8, type:'Photo Quest', reward:'Community Storykeeper', description:'A respectful portrait-and-story collection for local people who give Caldwell its personality and welcome.' },
-  { id:'walking', title:'Historic Walking Tour', town:'Caldwell', total:12, type:'GPS Quest', reward:'Border Queen Walker', description:"Follow GPS and QR stops through Caldwell's downtown history." },
-  { id:'redlight', title:'Red Light Saloon Mystery', town:'Caldwell', total:10, type:'QR Quest', reward:'Saloon Sleuth', description:"A story-based scavenger hunt inspired by Caldwell's Wild West past." },
-  { id:'buffalo', title:'Buffalo References Roundup', town:'Route-wide', total:5, type:'Photo Quest', reward:'Buffalo Hunter', description:'Find buffalo references along a route: murals, live buffalo, signs, stories, and souvenirs.' }
-];
+const fallenBadges = ['Marshal Mike Meagher','Deputy Marshal Harry Hill','Marshal George Flatt','Deputy Marshal Ed Burch','Marshal James O\'Brien','Deputy Marshal James McCormick','Deputy Sheriff Henry Brown','Caldwell Fallen Badge'];
+const queens = ['Eleanor “Madam Mustache” Dumont','Libby “Squirrel-toothed Alice” Thompson','Mag Woods','Big Nose Kate','Border Queen Entertainer','Frontier Businesswoman','Prairie Homesteader','Railroad Hotel Keeper','Chisholm Trail Hostess','Caldwell Saloon Woman','Borderlands Survivor','Caldwell Story Keeper'];
+const legends = ['Byron Berline','Max Showalter','Jesse Chisholm','Gladys Anderson Emerson','The Dinning Sisters','Susanna Madora Salter','Borderlands Pioneer','Prairie Innovator'];
 
-export const stamps = towns.map(t => ({ id:t.id, town:t.name, symbol: {caldwell:'🤠',wellington:'🏛️',southhaven:'🐃',argonia:'🚀',conway:'💧',belleplaine:'🌷',oxford:'⚙️',mulvane:'🎲'}[t.id] || '📍', message:`You found ${t.name}.` }));
-
-const asset = (name, ext='jpg') => `/assets/${name}.${ext}`;
+function cardItems(prefix, names, points, frontPrefix){return names.map((name,i)=>({id:`${prefix}-${i+1}`, number:i+1, name, subtitle: prefix==='badge'?'Fallen Badges of Caldwell':prefix==='queen'?'Women of the Border Queen':'Borderlands Legends', town: prefix==='legend'?'Regional':'Caldwell', points, type:'Collectible Card', front:`/assets/${frontPrefix}${String(i+1).padStart(2,'0')}-front.jpg`, back:`/assets/${frontPrefix}${String(i+1).padStart(2,'0')}-back.jpg`, qr:`RR:${prefix.toUpperCase()}:${i+1}`, hint:'Unlock from the story card QR or through demo mode.'}))}
 
 export const collections = [
-  { id:'turtles', title:'Turtle Trail', description:'12 Caldwell turtle sculptures and artist-inspired visits.', items: ['Outlaw','Bartholomew','Sunny','Sonny','Ampersand','Cosmo','Earp','Doris','Mosey','Blanche','Polka Dot','Ernie'].map((name,i)=>({ id:`turtle${i+1}`, number:i+1, name, collection:'Turtle Trail', front:asset(`Turtle${String(i+1).padStart(2,'0')}Photo`,'jpg'), back:asset(`Turtle${String(i+1).padStart(2,'0')}Sketch`, i===0||i===5||i===6?'jpg':'png'), payload:`ruralroutes://unlock/turtle/${i+1}` })) },
-  { id:'fallen', title:'Fallen Badges', description:'Caldwell lawmen remembered through collectible cards.', items: ['George W. Flatt','George S. Brown','Cassius M. Hollister','Mike Meagher','Frank Hunt','Henry Newton Brown','Ben Wheeler','William Horseman'].map((name,i)=>({ id:`badge${i+1}`, number:i+1, name, collection:'Fallen Badges', front:asset(`FallenBadge${String(i+1).padStart(2,'0')}Front`), back:asset(`FallenBadge${String(i+1).padStart(2,'0')}Back`), payload:`ruralroutes://unlock/fallenbadge/${i+1}` })) },
-  { id:'women', title:'Women of the Border Queen', description:'Frontier women and regional legends connected to Caldwell stories.', items: ['Mag Wood','Madam Mustache','Big Nose Kate','Dora Hand','Dora DuFran','Calamity Jane','Mattie Blaylock','Mollie Johnson','Squirrel-Toothed Alice','Mystery Woman','Border Queen Entrepreneur','Frontier Survivor'].map((name,i)=>({ id:`queen${i+1}`, number:i+1, name, collection:'Women of the Border Queen', front:asset(`BorderQueen${String(i+1).padStart(2,'0')}Front`), back:asset(`BorderQueen${String(i+1).padStart(2,'0')}Back`), payload:`ruralroutes://unlock/borderqueen/${i+1}` })) },
-  { id:'gunfighters', title:'Gamblers & Gunfighters', description:'Western figures tied to frontier-era storytelling.', items: ['Doc Holliday','Wyatt Earp','Bat Masterson','Billy the Kid','Henry Newton Brown','George Spears','Pat Desmond','Jim Talbot'].map((name,i)=>({ id:`gun${i+1}`, number:i+1, name, collection:'Gamblers & Gunfighters', front:asset(`GunfighterFront${String(i+1).padStart(2,'0')}`), back:asset(`GunfighterBack${String(i+1).padStart(2,'0')}`), payload:`ruralroutes://unlock/gunfighter/${i+1}` })) },
-  { id:'legends', title:'Borderlands Legends', description:'People and stories that help define the region.', items: ['Jesse Chisholm','Byron Berline','Max Showalter','Gladys Anderson Emerson','The Dinning Sisters','Henry Newton Brown','Mag Wood','Polly Bright'].map((name,i)=>({ id:`legend${i+1}`, number:i+1, name, collection:'Borderlands Legends', front:asset(`LegendFront${String(i+1).padStart(2,'0')}`), back:asset(`LegendBack${String(i+1).padStart(2,'0')}`), payload:`ruralroutes://unlock/legend/${i+1}` })) }
+ {id:'turtles', title:'Caldwell Turtle Trail', short:'Turtle Trail', type:'QR Quest', town:'Caldwell', reward:'Turtle Master badge', icon:'🐢', color:'gold', description:'Find all 12 Caldwell turtle sculptures, meet the artists, and unlock Turtle Trail progress.', items:turtles},
+ {id:'murals', title:'Caldwell Mural Quest', short:'Mural Quest', type:'Photo Quest', town:'Caldwell', reward:'Caldwell Mural Master stamp', icon:'🎨', color:'blue', description:'Follow a walking mural tour through Main Street, alleys, ghost signs, public art, and bonus indoor murals.', items:Array.from({length:12},(_,i)=>({id:`mural-${i+1}`, number:i+1, name:`Mural Stop ${i+1}`, subtitle:'Caldwell walking art stop', town:'Caldwell', points:35, type:'Mural Stop', qr:`RR:MURAL:${i+1}`, hint:'Use the walking-tour handout and check off the mural stop.'}))},
+ {id:'badges', title:'Fallen Badges of Caldwell', short:'Fallen Badges', type:'History Cards', town:'Caldwell', reward:'Fallen Badges completion stamp', icon:'⭐', color:'slate', description:'Collect all 8 Caldwell lawman cards and remember the badges who served during the Border Queen era.', items:cardItems('badge',fallenBadges,40,'fallenbadge')},
+ {id:'queens', title:'Women of the Border Queen', short:'Border Queen', type:'History Cards', town:'Caldwell', reward:'Border Queen collection stamp', icon:'👒', color:'rose', description:'Collect 12 frontier women cards connected to Caldwell and the Border Queen era.', items:cardItems('queen',queens,40,'borderqueen')},
+ {id:'legends', title:'Borderlands Legends', short:'Legends', type:'Story Cards', town:'Regional', reward:'Legends badge', icon:'🎻', color:'green', description:'Discover musicians, performers, pioneers, and local icons from the region.', items:cardItems('legend',legends,35,'legend')}
 ];
 
-export const murals = [
- ['Welcome to Caldwell','South wall of Roop\'s Relics','Gateway mural for the Caldwell art district.'],
- ['Library Bookshelf','Alley behind Caldwell Public Library','A colorful bookshelf mural celebrating books and learning.'],
- ["Children's Library Mural",'Inside Caldwell Public Library','Indoor children\'s room mural.'],
- ['Heritage Park Mural','Heritage Park area','Local heritage mural.'],
- ["Joe B's Saloon Marker","Back wall of Joe B's Bar alley",'Small marker mural identifying the saloon location.'],
- ['Where Everybody Knows Your Name',"Near Joe B's Bar",'One of the first Caldwell Art Brigade murals.'],
- ['Bluff Creek Cattle Drive',"Back wall of Joe B's Bar",'A cattle drive crossing Bluff Creek south of Caldwell.'],
- ['Tuff Buffs & Cool Mules','Alley behind Sugar Sisters','Postage-stamp style mural honoring buffalo and mules.'],
- ['The Gunslinger','Behind and south of the Opera House','First CAB mural from 2016, painted on original limestone.'],
- ['Kansas State Reptile Turtle','Above The Spot','Honors the Ornate Box Turtle.'],
- ["Last Chance Bar & Grill Murals",'Inside Last Chance Bar & Grill','Three indoor murals.'],
- ["Doc Small's",'Back of Dr. Small\'s Dental Office, 3 S Main','Vintage advertisement-style tribute.'],
- ['Rigsby Drug Ghost Sign','Caldwell Pharmacy area','Revived ghost mural advertisement.'],
- ['Cherokee Strip Land Run','Back side of City Hall/original jail alley','Large mural depicting the Cherokee Strip opening.'],
- ['Caldwell Messenger Advertisement','East end/back door of Caldwell Messenger','Small advertisement mural near hotel rooms and coffee lounge.'],
- ['Coca-Cola Ghost Sign','North side of the mortuary','Classic Coca-Cola wall sign.'],
- ['Chisholm Trail Post Office Mural','Inside the U.S. Post Office','Bonus indoor stop during post office hours.'],
- ['Sinclair Service Station Tribute','Back wall','Nostalgic dedication to Sinclair gas stations.'],
- ["St. Martin's Catholic Church Mural",'Behind the altar, St. Martin\'s Catholic Church','Bonus indoor church stop.'],
- ['Bakery Flowers Mural','Behind Pekarna Bakery','Cheerful floral mural behind the local bakery.']
-].map((m,i)=>({ id:`mural${i+1}`, number:i+1, title:m[0], location:m[1], description:m[2] }));
+export const caldwellStops = [
+ {id:'visitor-start', title:'Start at Main Street', kind:'Orientation', note:'Use Caldwell as the full demonstration town for sponsors and tourism partners.', x:22, y:50},
+ {id:'turtle-loop', title:'Turtle Trail loop', kind:'QR Quest', note:'Sculpture stops unlock artist stories and progress.', x:42, y:38},
+ {id:'mural-loop', title:'Mural walking tour', kind:'Photo Quest', note:'Outdoor murals, ghost signs, and indoor bonus art.', x:58, y:52},
+ {id:'history-cards', title:'History card cluster', kind:'Story Cards', note:'Fallen Badges and Women of the Border Queen.', x:72, y:32},
+ {id:'reward-stop', title:'Passport reward stop', kind:'Reward', note:'Claim stamps, badges, or sponsor coupons.', x:78, y:70}
+];
+
+export const achievements = [
+ {id:'first-scan', title:'First Scan', rule:'Unlock any Rural Routes QR code', reward:50, icon:'🔓'},
+ {id:'turtle-12', title:'Turtle Master', rule:'Find all 12 turtle sculptures', reward:250, icon:'🐢'},
+ {id:'mural-8', title:'Mural Walker', rule:'Check in at 8 mural stops', reward:150, icon:'🎨'},
+ {id:'caldwell-day', title:'Caldwell Day Tripper', rule:'Earn 500 points in Caldwell', reward:100, icon:'🧭'},
+ {id:'golden', title:'Golden Card Claim', rule:'Complete a golden requirement quest', reward:500, icon:'🏆'}
+];
+
+export const adminDefaults = {
+  headline:'Adventure first. Collection second.',
+  sponsor:'Demo sponsor slot available',
+  announcement:'Phase 2 polished Caldwell demo: ready for sponsor and tourism feedback.',
+  pointsPerScan:50,
+  gpsRadius:150
+};
