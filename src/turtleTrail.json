@@ -1,0 +1,377 @@
+{
+  "version": "pwa-turtle-trail-complete-1",
+  "turtles": [
+    {
+      "id": "TURT-01",
+      "number": 1,
+      "slug": "outlaw",
+      "name": "Outlaw",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Nelson P. Nelson",
+      "artistBio": "Owner of NPN Tattoo Shop. Inspired by successful temporary tattoo events at the Sumner County and South Haven fairs, he created Outlaw as a local spirit and school-unity turtle.",
+      "artistHome": "Wellington, Kansas",
+      "theme": "Community Partnership",
+      "storyPath": "Community Partnership",
+      "subtitle": "South Sumner Outlaws",
+      "behindTheShell": "Celebrates the South Sumner Outlaws, the combined Caldwell and South Haven athletic identity. The mascot brings together Caldwell Bluejay and South Haven Cardinal elements into one symbol of rural cooperation.",
+      "latitude": 37.031325,
+      "longitude": -97.611305,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/1",
+      "image": "/images/turtles/outlaw.jpg",
+      "sketch": "/images/sketches/outlaw.jpeg",
+      "tags": [
+        "Community Partnership",
+        "South Sumner Outlaws"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-02",
+      "number": 2,
+      "slug": "bartholomew",
+      "name": "Bartholomew",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Laura Ireland",
+      "artistBio": "Caldwell resident since 2016 and Oklahoma State University architecture graduate. Her work reflects family, design, art, gardening, reading, cooking, and community life.",
+      "artistHome": "Caldwell, Kansas",
+      "theme": "Children & Community",
+      "storyPath": "Children & Community",
+      "subtitle": "Student Handprints",
+      "behindTheShell": "Bartholomew celebrates Caldwell children and the wider community. Its original concept used USD 360 student handprints and Caldwell city colors, turning the turtle into a shared community art piece.",
+      "latitude": 37.032519,
+      "longitude": -97.610083,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/2",
+      "image": "/images/turtles/bartholomew.jpg",
+      "sketch": "/images/sketches/bartholomew.png",
+      "tags": [
+        "Children & Community",
+        "Student Handprints"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-03",
+      "number": 3,
+      "slug": "sunny",
+      "name": "Sunny",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Laura Ireland",
+      "artistBio": "Caldwell resident since 2016 and Oklahoma State University architecture graduate. Her work reflects family, design, art, gardening, reading, cooking, and community life.",
+      "artistHome": "Caldwell, Kansas",
+      "theme": "Kansas & Prairie",
+      "storyPath": "Kansas & Prairie",
+      "subtitle": "Kansas Sunflower",
+      "behindTheShell": "Sunny transforms the turtle shell into a sunflower, one of Kansas\u2019 most recognizable symbols. It connects the trail to prairie identity, agriculture, and state pride.",
+      "latitude": 37.032608,
+      "longitude": -97.604088,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/3",
+      "image": "/images/turtles/sunny.jpg",
+      "sketch": "/images/sketches/sunny.png",
+      "tags": [
+        "Kansas & Prairie",
+        "Kansas Sunflower"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-04",
+      "number": 4,
+      "slug": "sonny",
+      "name": "Sonny",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Jessy Wencel-Potts",
+      "artistBio": "Native of Caldwell and Caldwell Schools art teacher. Her work reflects prairie life, Kansas symbols, and the local community she returned home to serve.",
+      "artistHome": "Caldwell, Kansas",
+      "theme": "Kansas & Prairie",
+      "storyPath": "Kansas & Prairie",
+      "subtitle": "Prairie Life",
+      "behindTheShell": "Sonny celebrates Kansas prairie life through sunflowers, wheat, windmill imagery, sky, and landscape. It reflects the rural environment surrounding Caldwell.",
+      "latitude": 37.032422,
+      "longitude": -97.607055,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/4",
+      "image": "/images/turtles/sonny.jpg",
+      "sketch": "/images/sketches/sonny.png",
+      "tags": [
+        "Kansas & Prairie",
+        "Prairie Life"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-05",
+      "number": 5,
+      "slug": "ampersand",
+      "name": "Ampersand",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Jill Kuehny",
+      "artistBio": "Lifelong Caldwell resident, community developer, CEO of KanOkla, Finance Commissioner, Vision Caldwell director, and painter/creator for the Caldwell Art Brigade.",
+      "artistHome": "Caldwell, Kansas",
+      "theme": "Community",
+      "storyPath": "Community",
+      "subtitle": "Community Connections",
+      "behindTheShell": "Ampersand represents connection: people and ideas, organizations and generations, art and community development. It fits the artist\u2019s role in weaving Caldwell together.",
+      "latitude": 37.032203,
+      "longitude": -97.606828,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/5",
+      "image": "/images/turtles/ampersand.jpg",
+      "sketch": "/images/sketches/ampersand.png",
+      "tags": [
+        "Community",
+        "Community Connections"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-06",
+      "number": 6,
+      "slug": "cosmo",
+      "name": "Cosmo",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Dr. Jen Risley-Kern",
+      "artistBio": "Retired Wellington USD 353 administrator, native of Caldwell, and active supporter of Caldwell arts projects and community boards.",
+      "artistHome": "Caldwell, Kansas",
+      "theme": "Creativity",
+      "storyPath": "Creativity",
+      "subtitle": "Colorful Imagination",
+      "behindTheShell": "Cosmo celebrates imagination, creativity, and bright ideas. Its colorful shell and dotted legs turn the turtle into a playful, joyful public-art discovery.",
+      "latitude": 37.032647,
+      "longitude": -97.606863,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/6",
+      "image": "/images/turtles/cosmo.jpg",
+      "sketch": "/images/sketches/cosmo.jpeg",
+      "tags": [
+        "Creativity",
+        "Colorful Imagination"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-07",
+      "number": 7,
+      "slug": "earp",
+      "name": "Earp",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Sammie Strnad",
+      "artistBio": "Artist with lifelong love of drawing and painting. Her hand-painted turtle showcases attention to detail and local Caldwell identity.",
+      "artistHome": "Caldwell area",
+      "theme": "Heritage",
+      "storyPath": "Heritage",
+      "subtitle": "Gateway to Caldwell",
+      "behindTheShell": "Located at City Hall, Earp functions as a welcome turtle. Its artwork tells the story of Caldwell through agriculture, school pride, Kansas symbols, and local identity.",
+      "latitude": 37.032617,
+      "longitude": -97.607728,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/7",
+      "image": "/images/turtles/earp.jpg",
+      "sketch": "/images/sketches/earp.jpeg",
+      "tags": [
+        "Heritage",
+        "Gateway to Caldwell"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-08",
+      "number": 8,
+      "slug": "doris",
+      "name": "Doris",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Brooke Cink",
+      "artistBio": "Owner of Creative Vibes Art Studio and What In Carnation flower shop in Caldwell. Lifelong artist, teacher, commissioned artist, and founding member of the Caldwell Art Brigade.",
+      "artistHome": "Caldwell, Kansas",
+      "theme": "Community",
+      "storyPath": "Community",
+      "subtitle": "Bluejay Pride",
+      "behindTheShell": "Doris celebrates Caldwell\u2019s Bluejay spirit through blue-and-white patterns, feather-like designs, and school pride. It is a community identity turtle.",
+      "latitude": 37.0335,
+      "longitude": -97.607042,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/8",
+      "image": "/images/turtles/doris.jpg",
+      "sketch": "/images/sketches/doris.png",
+      "tags": [
+        "Community",
+        "Bluejay Pride"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-09",
+      "number": 9,
+      "slug": "mosey",
+      "name": "Mosey",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Brooke Cink",
+      "artistBio": "Owner of Creative Vibes Art Studio and What In Carnation flower shop in Caldwell. Lifelong artist, teacher, commissioned artist, and founding member of the Caldwell Art Brigade.",
+      "artistHome": "Caldwell, Kansas",
+      "theme": "Creativity",
+      "storyPath": "Creativity",
+      "subtitle": "Mosaic Art",
+      "behindTheShell": "Mosey was envisioned as a mosaic shell design. Its floral, tile-like pattern connects the Turtle Trail to Caldwell\u2019s public art movement and creative energy.",
+      "latitude": 37.030361,
+      "longitude": -97.607033,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/9",
+      "image": "/images/turtles/mosey.jpg",
+      "sketch": "/images/sketches/mosey.png",
+      "tags": [
+        "Creativity",
+        "Mosaic Art"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-10",
+      "number": 10,
+      "slug": "blanche",
+      "name": "Blanche",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Brooke Cink",
+      "artistBio": "Owner of Creative Vibes Art Studio and What In Carnation flower shop in Caldwell. Lifelong artist, teacher, commissioned artist, and founding member of the Caldwell Art Brigade.",
+      "artistHome": "Caldwell, Kansas",
+      "theme": "Creativity",
+      "storyPath": "Creativity",
+      "subtitle": "Prairie Folk Art",
+      "behindTheShell": "Blanche uses decorative floral medallions, warm prairie colors, and folk-art patterning. It connects public art with prairie beauty and traditional visual craft.",
+      "latitude": 37.030686,
+      "longitude": -97.606797,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/10",
+      "image": "/images/turtles/blanche.jpg",
+      "sketch": "/images/sketches/blanche.png",
+      "tags": [
+        "Creativity",
+        "Prairie Folk Art"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-11",
+      "number": 11,
+      "slug": "polka-dot",
+      "name": "Polka Dot",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Brenda Lebeda-Almond",
+      "artistBio": "Graphic design, visual communication, art education, and illustration professional connected to Caldwell since the 1870s through her family. Retired educator who continues freelance art and design work.",
+      "artistHome": "Caldwell / Renfrow area",
+      "theme": "Heritage",
+      "storyPath": "Heritage",
+      "subtitle": "Czech Heritage",
+      "behindTheShell": "Polka Dot celebrates Caldwell\u2019s Czech-American heritage with folk-art motifs, flowers, hearts, and cultural colors. It serves as a gateway to Czech heritage stories.",
+      "latitude": 37.031495,
+      "longitude": -97.606858,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/11",
+      "image": "/images/turtles/polka-dot.jpg",
+      "sketch": "/images/sketches/polka-dot.png",
+      "tags": [
+        "Heritage",
+        "Czech Heritage"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    },
+    {
+      "id": "TURT-12",
+      "number": 12,
+      "slug": "ernie",
+      "name": "Ernie",
+      "collection": "Caldwell Turtle Trail",
+      "artist": "Brenda Lebeda-Almond",
+      "artistBio": "Graphic design, visual communication, art education, and illustration professional connected to Caldwell since the 1870s through her family. Retired educator who continues freelance art and design work.",
+      "artistHome": "Caldwell / Renfrow area",
+      "theme": "Heritage",
+      "storyPath": "Heritage",
+      "subtitle": "Family Farm Heritage",
+      "behindTheShell": "Ernie honors the artist\u2019s father, a local farmer. Its wheat, barn, and farm landscape imagery preserve the story of agricultural families who shaped the Caldwell area.",
+      "latitude": 37.031497,
+      "longitude": -97.607033,
+      "gpsRadiusMeters": 60,
+      "discoveryPoints": 75,
+      "scanPoints": 50,
+      "qrPayload": "borderlands://turtle/12",
+      "image": "/images/turtles/ernie.jpg",
+      "sketch": "/images/sketches/ernie.png",
+      "tags": [
+        "Heritage",
+        "Family Farm Heritage"
+      ],
+      "achievementLinks": [
+        "turtle-trail-master",
+        "behind-the-shell",
+        "caldwell-art-adventure"
+      ]
+    }
+  ]
+}
