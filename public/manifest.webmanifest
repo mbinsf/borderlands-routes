@@ -1,0 +1,13 @@
+{
+  "name": "Rural Routes Explorer",
+  "short_name": "Rural Routes",
+  "description": "Explore rural towns, side quests, QR unlocks, collectibles, maps, and local stories.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#101828",
+  "theme_color": "#101828",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/assets/icon-1024.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
