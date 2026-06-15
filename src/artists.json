@@ -1,0 +1,72 @@
+{
+  "artists": [
+    {
+      "name": "Nelson P. Nelson",
+      "home": "Wellington, Kansas",
+      "bio": "Owner of NPN Tattoo Shop. Inspired by successful temporary tattoo events at the Sumner County and South Haven fairs, he created Outlaw as a local spirit and school-unity turtle.",
+      "turtles": [
+        "Outlaw"
+      ]
+    },
+    {
+      "name": "Laura Ireland",
+      "home": "Caldwell, Kansas",
+      "bio": "Caldwell resident since 2016 and Oklahoma State University architecture graduate. Her work reflects family, design, art, gardening, reading, cooking, and community life.",
+      "turtles": [
+        "Bartholomew",
+        "Sunny"
+      ]
+    },
+    {
+      "name": "Jessy Wencel-Potts",
+      "home": "Caldwell, Kansas",
+      "bio": "Native of Caldwell and Caldwell Schools art teacher. Her work reflects prairie life, Kansas symbols, and the local community she returned home to serve.",
+      "turtles": [
+        "Sonny"
+      ]
+    },
+    {
+      "name": "Jill Kuehny",
+      "home": "Caldwell, Kansas",
+      "bio": "Lifelong Caldwell resident, community developer, CEO of KanOkla, Finance Commissioner, Vision Caldwell director, and painter/creator for the Caldwell Art Brigade.",
+      "turtles": [
+        "Ampersand"
+      ]
+    },
+    {
+      "name": "Dr. Jen Risley-Kern",
+      "home": "Caldwell, Kansas",
+      "bio": "Retired Wellington USD 353 administrator, native of Caldwell, and active supporter of Caldwell arts projects and community boards.",
+      "turtles": [
+        "Cosmo"
+      ]
+    },
+    {
+      "name": "Sammie Strnad",
+      "home": "Caldwell area",
+      "bio": "Artist with lifelong love of drawing and painting. Her hand-painted turtle showcases attention to detail and local Caldwell identity.",
+      "turtles": [
+        "Earp"
+      ]
+    },
+    {
+      "name": "Brooke Cink",
+      "home": "Caldwell, Kansas",
+      "bio": "Owner of Creative Vibes Art Studio and What In Carnation flower shop in Caldwell. Lifelong artist, teacher, commissioned artist, and founding member of the Caldwell Art Brigade.",
+      "turtles": [
+        "Doris",
+        "Mosey",
+        "Blanche"
+      ]
+    },
+    {
+      "name": "Brenda Lebeda-Almond",
+      "home": "Caldwell / Renfrow area",
+      "bio": "Graphic design, visual communication, art education, and illustration professional connected to Caldwell since the 1870s through her family. Retired educator who continues freelance art and design work.",
+      "turtles": [
+        "Polka Dot",
+        "Ernie"
+      ]
+    }
+  ]
+}

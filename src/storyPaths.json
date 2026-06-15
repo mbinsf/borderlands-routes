@@ -1,0 +1,59 @@
+{
+  "storyPaths": [
+    {
+      "name": "Community",
+      "turtles": [
+        "Outlaw",
+        "Bartholomew",
+        "Ampersand",
+        "Doris"
+      ],
+      "rewardBadge": "Community Badge"
+    },
+    {
+      "name": "Heritage",
+      "turtles": [
+        "Earp",
+        "Polka Dot",
+        "Ernie"
+      ],
+      "rewardBadge": "Heritage Badge"
+    },
+    {
+      "name": "Kansas & Prairie",
+      "turtles": [
+        "Sunny",
+        "Sonny",
+        "Ernie"
+      ],
+      "rewardBadge": "Kansas & Prairie Badge"
+    },
+    {
+      "name": "Creativity",
+      "turtles": [
+        "Cosmo",
+        "Mosey",
+        "Blanche"
+      ],
+      "rewardBadge": "Creativity Badge"
+    },
+    {
+      "name": "Behind the Shell",
+      "turtles": [
+        "Outlaw",
+        "Bartholomew",
+        "Sunny",
+        "Sonny",
+        "Ampersand",
+        "Cosmo",
+        "Earp",
+        "Doris",
+        "Mosey",
+        "Blanche",
+        "Polka Dot",
+        "Ernie"
+      ],
+      "rewardBadge": "Behind the Shell Badge"
+    }
+  ]
+}

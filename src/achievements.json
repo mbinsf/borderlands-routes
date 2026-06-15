@@ -1,0 +1,40 @@
+{
+  "achievements": [
+    {
+      "id": "first-footsteps",
+      "name": "First Footsteps",
+      "requirement": "Complete first GPS discovery",
+      "reward": "Bronze hiking boot badge"
+    },
+    {
+      "id": "turtle-spotter",
+      "name": "Turtle Spotter",
+      "requirement": "Discover 1 turtle",
+      "reward": "Bronze turtle shell badge"
+    },
+    {
+      "id": "shell-seeker",
+      "name": "Shell Seeker",
+      "requirement": "Discover 6 turtles",
+      "reward": "Silver turtle medallion"
+    },
+    {
+      "id": "keeper-of-the-shell",
+      "name": "Keeper of the Shell",
+      "requirement": "Discover all 12 turtles",
+      "reward": "Gold ornate box turtle medal"
+    },
+    {
+      "id": "art-historian",
+      "name": "Art Historian",
+      "requirement": "View all 12 turtle sketches",
+      "reward": "Artist palette badge"
+    },
+    {
+      "id": "caldwell-explorer",
+      "name": "Caldwell Explorer",
+      "requirement": "Visit Earp and start a Caldwell adventure",
+      "reward": "Caldwell arch badge"
+    }
+  ]
+}
