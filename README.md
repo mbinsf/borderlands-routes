@@ -1,17 +1,16 @@
-# Rural Routes Explorer PWA — Phase 2
+# Rural Routes Phase 2B PWA
 
-Polished Caldwell demo release for Vercel.
+Phase 2B adds the **Borderlands Legends** collection with eight front/back placeholder card assets, so the Legends collection now displays correctly in the card viewer.
 
-## What changed in Phase 2
-- Stronger visual design and mobile navigation
-- Caldwell-first tourism demo
-- Town directory and Caldwell detail screen
-- Quest hub with progress tracking
-- Card viewer with front/back flip states
-- Universal QR scanner with desktop demo unlocks
-- Passport and trophy case
-- Admin-lite local editor for demo text/points/radius
-- PWA manifest and service worker cleanup
+Upload the contents of this folder to the GitHub repository, commit, and push. Vercel will redeploy automatically.
 
-## Deploy
-Upload the contents of this folder to the GitHub repository connected to Vercel. Include the `src` and `public` folders.
+Included collections:
+- Caldwell Turtle Trail
+- Caldwell Mural Quest
+- Fallen Badges of Caldwell
+- Women of the Border Queen
+- Borderlands Legends
+
+Notes:
+- Legend card art is demo-ready placeholder artwork. Replace later with final approved images.
+- If images do not appear immediately after deployment, clear browser/PWA cache or test in a private window.
