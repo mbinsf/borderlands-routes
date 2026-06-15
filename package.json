@@ -1,0 +1,19 @@
+{
+  "name": "rural-routes-explorer-pwa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vercel-ready Progressive Web App for Rural Routes Explorer.",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "lucide-react": "latest"
+  },
+  "devDependencies": {}
+}
