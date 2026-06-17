@@ -1,0 +1,116 @@
+{
+  "project": "Rural Routes Explorer v35D PWA Parity Seed",
+  "domain": "ruralroutesexplorer.com",
+  "coreNavigation": [
+    "Explore",
+    "Map",
+    "Scan",
+    "Rewards",
+    "Profile"
+  ],
+  "quests": [
+    {
+      "id": "turtle-trail",
+      "title": "Turtle Trail",
+      "icon": "tortoise.fill",
+      "subtitle": "Public art hunt with 12 Caldwell turtles",
+      "collection": "Caldwell Art Adventure",
+      "unlockMode": "quest_first_hunt",
+      "mapTitle": "Turtle Trail Map",
+      "targetsSource": "turtles"
+    },
+    {
+      "id": "mural-quest",
+      "title": "Mural Quest",
+      "icon": "paintbrush.pointed.fill",
+      "subtitle": "Find Caldwell murals through visual clues",
+      "collection": "Caldwell Public Art",
+      "unlockMode": "quest_first_hunt",
+      "mapTitle": "Mural Quest Map",
+      "targetsSource": "muralStops"
+    },
+    {
+      "id": "historic-caldwell",
+      "title": "Historic Caldwell",
+      "icon": "building.columns.fill",
+      "subtitle": "Border Queen stories, old west locations, and local history",
+      "collection": "Heritage Story Path",
+      "unlockMode": "quest_first_hunt",
+      "mapTitle": "Historic Caldwell Map",
+      "targetsSource": "historicStops"
+    },
+    {
+      "id": "local-rewards",
+      "title": "Local Rewards",
+      "icon": "giftcard.fill",
+      "subtitle": "Business rewards tied to nearby discoveries and buy-local stops",
+      "collection": "Buy Local Rewards",
+      "unlockMode": "nearby_rewards",
+      "mapTitle": "Local Rewards Map",
+      "targetsSource": "businesses"
+    }
+  ],
+  "businessDemo": [
+    {
+      "id": "BIZ-CZECH-BAKERY",
+      "name": "Czech Heritage Bakery",
+      "category": "Bakery",
+      "promotion": {
+        "id": "PROMO-KOLACHE-50",
+        "title": "Kolache Explorer Bonus",
+        "reward": "+50 Explorer Points",
+        "requirement": "Scan after purchase"
+      }
+    },
+    {
+      "id": "BIZ-TURTLE-GIFTS",
+      "name": "Turtle Trail Gift Shop",
+      "category": "Souvenirs",
+      "promotion": {
+        "id": "PROMO-TURTLE-GIFT",
+        "title": "Turtle Trail Souvenir Reward",
+        "reward": "+75 Explorer Points",
+        "requirement": "Complete 3 turtle discoveries"
+      }
+    },
+    {
+      "id": "BIZ-COFFEE",
+      "name": "Main Street Coffee",
+      "category": "Coffee",
+      "promotion": {
+        "id": "PROMO-COFFEE-UPGRADE",
+        "title": "Road Trip Coffee Bonus",
+        "reward": "+25 Explorer Points",
+        "requirement": "Scan at counter"
+      }
+    }
+  ],
+  "supabaseNeededTables": [
+    "towns",
+    "locations",
+    "collections",
+    "cards",
+    "artists",
+    "routes",
+    "route_stops",
+    "story_paths",
+    "qrcodes",
+    "achievements",
+    "businesses",
+    "local_products",
+    "promotions",
+    "promotion_redemptions",
+    "profiles",
+    "discoveries",
+    "user_cards",
+    "user_achievements"
+  ],
+  "pwaIntegrations": {
+    "maps": "Use Mapbox/MapLibre or Google Maps. Must show user position, heading if available, quest pins, highlighted active target, and orange target-bearing arrow after Direction Hint/Reveal.",
+    "gps": "Use browser Geolocation API with watchPosition. Require HTTPS. Store permission state and graceful fallback for unsupported heading.",
+    "haptics": "Use navigator.vibrate where supported. iOS Safari/PWA has limited/no vibration support; provide visual heartbeat/signal fallback.",
+    "qr": "Use camera scanner library such as html5-qrcode, zxing-js/browser, or jsQR. QR payload should resolve to a Supabase qrcodes/promotions row, not hardcode rewards.",
+    "storage": "Supabase Storage for card images, turtle photos, artist photos, QR signs, badges.",
+    "auth": "Supabase Auth for persistent traveler profiles; localStorage only for demo mode."
+  }
+}

@@ -1,59 +1,256 @@
-import React, {useMemo, useState, useEffect} from 'react';
-import {createRoot} from 'react-dom/client';
-import {Map, Compass, ScanLine, Trophy, User, Settings, MapPin, Route, Star, LockKeyhole, Camera, QrCode, Palette, Shell, Award, Download, Upload, RotateCcw, Navigation, BookOpen, Users, Image as ImageIcon} from 'lucide-react';
-import turtleData from './turtleTrail.json';
-import artistsData from './artists.json';
-import storyPathsData from './storyPaths.json';
-import achievementsData from './achievements.json';
-import handoff from './pwa_app_map.json';
+import React, { useMemo, useEffect, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { Compass, MapPinned, ScanLine, Trophy, User, Gift, Map, CreditCard, Lock, Star, Navigation, Eye, EyeOff, Route, Store, Bell, HeartPulse } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Popup, CircleMarker, Polyline, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import './styles.css';
+import { supabase, isSupabaseConfigured } from './lib/supabase.js';
+import { seed } from './data/seed.js';
 
-const asset = p => p?.replace('/images/turtles/','/assets/turtles/').replace('/images/sketches/','/assets/sketches/').replace('/images/artists/','/assets/artists/');
-const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-const turtles = turtleData.turtles.map(t=>({...t, image:asset(t.image), sketch:asset(t.sketch)}));
-const artists = artistsData.artists;
-const storyPaths = storyPathsData.storyPaths;
-const achievements = achievementsData.achievements;
-const towns = handoff.towns;
-const collections = [
-  {id:'turtle-trail',title:'Caldwell Turtle Trail',subtitle:'12 sculptures, 8 artists, story paths, GPS + QR',count:12,icon:'🐢',kind:'adventure'},
-  {id:'fallen',title:'Fallen Badges of Caldwell',subtitle:'8 lawmen cards honoring service and sacrifice',count:8,icon:'⭐',kind:'cards'},
-  {id:'women',title:'Women of the Border Queen',subtitle:'12 frontier women and community voices',count:12,icon:'👒',kind:'cards'},
-  {id:'gunfighters',title:'Gamblers & Gunfighters',subtitle:'8 Wild West collectible cards',count:8,icon:'♠️',kind:'cards'},
-  {id:'legends',title:'Borderlands Legends',subtitle:'Signature regional legends production artwork',count:8,icon:'🌟',kind:'poster'},
-  {id:'murals',title:'Caldwell Mural Quest',subtitle:'Walking tour handout and mural stops',count:20,icon:'🎨',kind:'map'}
-];
-const cardAssets = {
-  fallen: Array.from({length:8},(_,i)=>({front:`/assets/cards/fallen/FallenBadge${String(i+1).padStart(2,'0')}Front.jpg`,back:`/assets/cards/fallen/FallenBadge${String(i+1).padStart(2,'0')}Back.jpg`,title:`Fallen Badge ${i+1}`})),
-  women: Array.from({length:12},(_,i)=>({front:`/assets/cards/borderqueen/BorderQueen${String(i+1).padStart(2,'0')}Front.jpg`,back:`/assets/cards/borderqueen/BorderQueen${String(i+1).padStart(2,'0')}Back.jpg`,title:`Border Queen Woman ${i+1}`})),
-  gunfighters: Array.from({length:8},(_,i)=>({front:`/assets/cards/gunfighters/GunfighterFront${String(i+1).padStart(2,'0')}.jpg`,back:`/assets/cards/gunfighters/GunfighterBack${String(i+1).padStart(2,'0')}.jpg`,title:`Gunfighter Card ${i+1}`}))
-};
-const defaultProgress = {turtles:{},scans:{},photos:{},viewedShells:{},unlockedCards:{},stamps:{caldwell:true,wellington:true},demo:{easyUnlock:true,fieldMode:false,adminVisible:true},lastScan:null};
-function useStoredState(key, init){const [v,setV]=useState(()=>{try{return JSON.parse(localStorage.getItem(key))??init}catch{return init}});useEffect(()=>localStorage.setItem(key,JSON.stringify(v)),[key,v]);return [v,setV]}
-const haversine=(a,b,c,d)=>{const R=3958.8,toRad=x=>x*Math.PI/180;let dLat=toRad(c-a),dLon=toRad(d-b);let x=Math.sin(dLat/2)**2+Math.cos(toRad(a))*Math.cos(toRad(c))*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
-function App(){const [tab,setTab]=useState('explore');const [route,setRoute]=useState({screen:'home'});const [progress,setProgress]=useStoredState('rr-progress-v4',defaultProgress);const [modal,setModal]=useState(null);const discovered=Object.keys(progress.turtles||{}).length;const scanned=Object.keys(progress.scans||{}).length;const points=discovered*75+scanned*50+Object.keys(progress.stamps||{}).length*25;function nav(screen, params={}){setRoute({screen,...params}); if(['map','scan','rewards','profile','admin'].includes(screen)) setTab(screen); else setTab('explore'); window.scrollTo(0,0)}function mark(t,kind='turtles'){setProgress(p=>({...p,[kind]:{...p[kind],[t.id||t]:true},unlockedCards:{...p.unlockedCards,[t.id||t]:true}}))}function scan(payload){let t=turtles.find(x=>x.qrPayload===payload||String(payload).includes(x.number)||String(payload).toLowerCase().includes(x.slug)); if(t){setProgress(p=>({...p,scans:{...p.scans,[t.id]:true},turtles:p.demo?.easyUnlock?{...p.turtles,[t.id]:true}:p.turtles,unlockedCards:{...p.unlockedCards,[t.id]:true},lastScan:{ok:true,name:t.name,payload}}));setModal({type:'scan',t})}else setProgress(p=>({...p,lastScan:{ok:false,payload}}))}
- const ctx={tab,setTab,route,nav,progress,setProgress,points,discovered,scanned,mark,scan,setModal};
- return <div className="app"><Topbar/><main>{route.screen==='home'&&<Explore {...ctx}/>} {route.screen==='towns'&&<Towns {...ctx}/>} {route.screen==='town'&&<TownDetail {...ctx} id={route.id}/>} {route.screen==='turtleTrail'&&<TurtleTrail {...ctx}/>} {route.screen==='turtle'&&<TurtleDetail {...ctx} id={route.id}/>} {route.screen==='artists'&&<Artists {...ctx}/>} {route.screen==='behind'&&<BehindShell {...ctx}/>} {route.screen==='storypaths'&&<StoryPaths {...ctx}/>} {route.screen==='collection'&&<Collection {...ctx} id={route.id}/>} {route.screen==='map'&&<MapScreen {...ctx}/>} {route.screen==='scan'&&<ScanScreen {...ctx}/>} {route.screen==='rewards'&&<Rewards {...ctx}/>} {route.screen==='profile'&&<Profile {...ctx}/>} {route.screen==='admin'&&<Admin {...ctx}/>}</main><BottomNav {...ctx}/>{modal&&<Modal data={modal} close={()=>setModal(null)} ctx={ctx}/>}</div>}
-function Topbar(){return <div className="topbar"><div className="brand"><img className="logo" src="/assets/rural_routes_main_logo.jpg"/><div><div className="kicker">Rural Routes Explorer</div><h1>Adventure first. Collection second.</h1><div className="tag">iOS-style PWA foundation • Caldwell + Borderlands showcase</div></div></div></div>}
-function BottomNav({tab,nav}){let items=[['explore','Explore',Compass],['map','Map',Map],['scan','Scan',ScanLine],['rewards','Rewards',Trophy],['profile','Profile',User],['admin','Admin',Settings]];return <div className="tabbar"><div className="bottomnav">{items.map(([id,label,Icon])=><button key={id} className={'navbtn '+(tab===id?'active':'')} onClick={()=>nav(id==='explore'?'home':id)}><Icon/><span>{label}</span></button>)}</div></div>}
-function Explore(ctx){const {nav,discovered,scanned,points,progress}=ctx;return <section className="screen"><div className="hero"><div><div className="kicker">Adventure Center</div><h2>Explore rural towns through quests, cards, maps, and QR unlocks.</h2><p>This build keeps Rural Routes as the full regional tourism app while bringing the PWA closer to the iOS v30C structure: Explore, Map, Scan, Rewards, Profile, and Admin.</p><div className="actions"><button className="btn" onClick={()=>nav('turtleTrail')}>Start Turtle Trail</button><button className="btn secondary" onClick={()=>nav('map')}>Open map</button><button className="btn ghost" onClick={()=>nav('scan')}>Scan / unlock</button></div></div><div className="miniStats"><Stat n={points} l="Points"/><Stat n={discovered} l="Turtles"/><Stat n={scanned} l="Scans"/><Stat n={Object.keys(progress.stamps||{}).length} l="Stamps"/></div></div><div className="sectionTitle"><h2>Featured adventures</h2><span className="badge">iOS parity foundation</span></div><div className="grid three"><Feature title="Caldwell Turtle Trail" icon="🐢" text="Complete Edition: map, near me, Behind the Shell, Meet the Artists, story paths, QR and GPS." onClick={()=>nav('turtleTrail')}/><Feature title="Caldwell Mural Quest" icon="🎨" text="Walking-tour handout and mural adventure preserved as a collection." onClick={()=>nav('collection',{id:'murals'})}/><Feature title="Borderlands Legends" icon="🌟" text="Production poster assets preserved for future card slicing and flip viewer." onClick={()=>nav('collection',{id:'legends'})}/></div><div className="sectionTitle"><h2>Explore towns</h2><button className="btn secondary" onClick={()=>nav('towns')}>View all</button></div><div className="grid four">{towns.slice(0,8).map(t=><div className="card" key={t.id} onClick={()=>nav('town',{id:t.id})}><span className="badge">{t.stampSymbol} {t.name}</span><h3>{t.tagline}</h3><p>{t.highlights}</p></div>)}</div><div className="sectionTitle"><h2>Collections</h2></div><div className="grid three">{collections.map(c=><Feature key={c.id} title={c.title} icon={c.icon} text={c.subtitle} onClick={()=>c.id==='turtle-trail'?nav('turtleTrail'):nav('collection',{id:c.id})}/>)}</div></section>}
-function Stat({n,l}){return <div className="stat"><b>{n}</b><span>{l}</span></div>}
-function Feature({title,text,icon,onClick}){return <div className="card" onClick={onClick} style={{cursor:'pointer'}}><span className="badge">{icon} Featured</span><h3>{title}</h3><p>{text}</p></div>}
-function Towns({nav}){return <section><div className="sectionTitle"><h2>Towns</h2><span className="badge">Regional framework</span></div><div className="grid two">{towns.map(t=><div className="townRow" key={t.id} onClick={()=>nav('town',{id:t.id})}><div><b>{t.stampSymbol} {t.name}</b><p>{t.tagline}</p></div><MapPin color="var(--gold)"/></div>)}</div></section>}
-function TownDetail({id,nav,setProgress,progress}){const town=towns.find(t=>t.id===id)||towns[0];return <section><div className="hero"><div><div className="kicker">Town Hub</div><h2>{town.name}</h2><p>{town.highlights}</p><div className="actions"><button className="btn" onClick={()=>setProgress(p=>({...p,stamps:{...p.stamps,[town.id]:true}}))}>Stamp passport</button>{town.id==='caldwell'&&<button className="btn secondary" onClick={()=>nav('turtleTrail')}>Open Turtle Trail</button>}<button className="btn ghost" onClick={()=>nav('map')}>Map</button></div></div><Stat n={progress.stamps?.[town.id]?'✓':'+'} l="Passport"/></div>{town.id==='caldwell'?<CaldwellHub nav={nav}/>:<div className="card"><h3>Coming next</h3><p>This town is in the regional shell. Caldwell is the feature-parity demo town in this build.</p></div>}</section>}
-function CaldwellHub({nav}){return <div className="grid three"><Feature title="Turtle Trail" icon="🐢" text="Complete Edition with all feature parity modules." onClick={()=>nav('turtleTrail')}/><Feature title="Fallen Badges" icon="⭐" text="Lawmen collectible cards from the iOS app assets." onClick={()=>nav('collection',{id:'fallen'})}/><Feature title="Women of the Border Queen" icon="👒" text="Frontier women collection with card artwork." onClick={()=>nav('collection',{id:'women'})}/><Feature title="Mural Quest" icon="🎨" text="Handout-based walking tour." onClick={()=>nav('collection',{id:'murals'})}/><Feature title="Gamblers & Gunfighters" icon="♠️" text="Wild West collectible cards." onClick={()=>nav('collection',{id:'gunfighters'})}/><Feature title="Borderlands Legends" icon="🌟" text="Production poster assets included." onClick={()=>nav('collection',{id:'legends'})}/></div>}
-function TurtleTrail(ctx){const {nav,discovered,scanned,progress}=ctx;let pct=Math.round(discovered/turtles.length*100);return <section><div className="hero"><div><div className="kicker">Caldwell Turtle Trail • Complete Edition</div><h2>12 turtles. 8 artists. One walkable public-art adventure.</h2><p>Feature parity module with map, near me, story paths, Behind the Shell, Meet the Artists, QR unlocks, passport progress, and Turtle Master achievements.</p><div className="actions"><button className="btn" onClick={()=>nav('map')}>Map all turtles</button><button className="btn secondary" onClick={()=>nav('behind')}>Behind the Shell</button><button className="btn secondary" onClick={()=>nav('artists')}>Meet the Artists</button><button className="btn ghost" onClick={()=>nav('storypaths')}>Story Paths</button></div></div><div className="card"><span className="badge">Turtle Master</span><h3>{discovered}/12 discovered</h3><div className="progress"><span style={{width:pct+'%'}}/></div><p style={{marginTop:10}}>{scanned}/12 QR scans • {pct}% complete</p></div></div><div className="grid four"><Feature title="Near Me" icon="📍" text="Sort turtles by distance using your current location." onClick={()=>nav('map',{mode:'near'})}/><Feature title="Story Paths" icon="🧭" text="Community, heritage, prairie, creativity and full Behind the Shell paths." onClick={()=>nav('storypaths')}/><Feature title="Meet the Artists" icon="🎨" text="Artist bios grouped by sculpture." onClick={()=>nav('artists')}/><Feature title="Behind the Shell" icon="🐚" text="Sketch-to-sculpture storytelling for each turtle." onClick={()=>nav('behind')}/></div><div className="sectionTitle"><h2>Turtle Trail Stops</h2><span className="badge">Tap for detail</span></div><div className="grid three">{turtles.map(t=><TurtleCard key={t.id} t={t} done={progress.turtles?.[t.id]} scanned={progress.scans?.[t.id]} nav={nav}/>)}</div></section>}
-function TurtleCard({t,done,scanned,nav}){return <div className="card imageCard" onClick={()=>nav('turtle',{id:t.id})} style={{cursor:'pointer'}}><img src={t.image}/><div className="pad"><span className="badge">#{t.number} {done?'Discovered':'Undiscovered'} {scanned?'• QR':''}</span><h3>{t.name}</h3><p>{t.artist} • {t.theme}</p></div></div>}
-function TurtleDetail({id,progress,mark,setProgress,nav}){const t=turtles.find(x=>x.id===id)||turtles[0];return <section><div className="turtleHero"><img src={t.image}/><div className="card"><div className="kicker">Turtle #{t.number}</div><h2>{t.name}</h2><p>{t.subtitle}</p><div className="chipbar"><span className="chip">{t.theme}</span><span className="chip">{t.artist}</span><span className="chip">{t.gpsRadiusMeters}m GPS radius</span></div><div className="actions"><button className="btn" onClick={()=>mark(t,'turtles')}>GPS Discover</button><button className="btn secondary" onClick={()=>setProgress(p=>({...p,scans:{...p.scans,[t.id]:true},unlockedCards:{...p.unlockedCards,[t.id]:true}}))}>QR Scan</button><button className="btn ghost" onClick={()=>setProgress(p=>({...p,photos:{...p.photos,[t.id]:true}}))}>Photo Taken</button></div><p className="footerNote">Status: {progress.turtles?.[t.id]?'discovered':'not discovered'} • {progress.scans?.[t.id]?'scanned':'not scanned'} • {progress.photos?.[t.id]?'photo logged':'no photo'}</p></div></div><div className="detailGrid" style={{marginTop:16}}><div className="card"><h3><BookOpen/> Behind the Shell</h3><p>{t.behindTheShell}</p><h3>Design Notes</h3><p>{t.storyNote||t.theme}</p></div><div className="card"><h3><Palette/> Meet the Artist</h3><p>{t.artistBio}</p><p><b>Artist home:</b> {t.artistHome}</p></div><div className="card imageCard"><img src={t.sketch}/><div className="pad"><h3>Sketch / Concept</h3><p>Tap Behind the Shell to browse all sketch-to-sculpture views.</p></div></div><div className="card"><h3><MapPin/> Location</h3><p>{t.latitude}, {t.longitude}</p><div className="actions"><a className="btn" href={`https://maps.apple.com/?daddr=${t.latitude},${t.longitude}`} target="_blank">Apple Maps</a><a className="btn secondary" href={`https://www.google.com/maps/dir/?api=1&destination=${t.latitude},${t.longitude}`} target="_blank">Google Maps</a></div></div></div></section>}
-function Artists({nav}){return <section><div className="sectionTitle"><h2>Meet the Artists</h2><span className="badge">Caldwell Art Brigade</span></div><div className="grid two">{artists.map(a=><div className="card" key={a.name}><span className="badge"><Users size={14}/> {a.home}</span><h3>{a.name}</h3><p>{a.bio}</p><div className="chipbar">{a.turtles.map(name=>{let t=turtles.find(x=>x.name===name);return <button className="chip" key={name} onClick={()=>t&&nav('turtle',{id:t.id})}>{name}</button>})}</div></div>)}</div></section>}
-function BehindShell({nav,progress,setProgress}){return <section><div className="sectionTitle"><h2>Behind the Shell</h2><span className="badge">Sketch to sculpture</span></div><div className="grid two">{turtles.map(t=><div className="card" key={t.id}><div className="detailGrid"><img src={t.sketch}/><img src={t.image}/></div><h3>{t.name}</h3><p>{t.behindTheShell}</p><div className="actions"><button className="btn secondary" onClick={()=>{setProgress(p=>({...p,viewedShells:{...p.viewedShells,[t.id]:true}}));nav('turtle',{id:t.id})}}>Open detail</button></div></div>)}</div></section>}
-function StoryPaths({nav,progress}){return <section><div className="sectionTitle"><h2>Story Paths</h2><span className="badge">Choose your adventure</span></div><div className="grid two">{storyPaths.map(p=>{let done=p.turtles.filter(n=>progress.turtles?.[turtles.find(t=>t.name===n)?.id]).length;return <div className="card" key={p.name}><span className="badge"><Route size={14}/> {p.rewardBadge}</span><h3>{p.name}</h3><p>{p.turtles.join(' • ')}</p><div className="progress" style={{margin:'12px 0'}}><span style={{width:Math.round(done/p.turtles.length*100)+'%'}}/></div><p>{done}/{p.turtles.length} complete</p><div className="chipbar">{p.turtles.map(n=>{let t=turtles.find(x=>x.name===n);return <button className="chip" onClick={()=>t&&nav('turtle',{id:t.id})} key={n}>{n}</button>})}</div></div>})}</div></section>}
-function MapScreen({nav,route,progress}){const [loc,setLoc]=useState(null);const [err,setErr]=useState('');useEffect(()=>{if(route.mode==='near'&&navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>setLoc({lat:p.coords.latitude,lng:p.coords.longitude}),e=>setErr(e.message),{enableHighAccuracy:true,timeout:6000})},[route.mode]);let minLat=Math.min(...turtles.map(t=>t.latitude)),maxLat=Math.max(...turtles.map(t=>t.latitude)),minLng=Math.min(...turtles.map(t=>t.longitude)),maxLng=Math.max(...turtles.map(t=>t.longitude));let mapPoint=t=>({x:8+84*((t.longitude-minLng)/(maxLng-minLng||1)),y:88-76*((t.latitude-minLat)/(maxLat-minLat||1))});let sorted=[...turtles].map(t=>({...t,distance:loc?haversine(loc.lat,loc.lng,t.latitude,t.longitude):null})).sort((a,b)=>(a.distance??99)-(b.distance??99));return <section><div className="sectionTitle"><h2>{route.mode==='near'?'Near Me':'Map'}</h2><div className="actions"><button className="btn secondary" onClick={()=>navigator.geolocation&&navigator.geolocation.getCurrentPosition(p=>setLoc({lat:p.coords.latitude,lng:p.coords.longitude}))}>Use my location</button></div></div><div className="mapBox"><div className="mapGrid"/><div className="road v"/><div className="road h"/>{turtles.map(t=>{let pt=mapPoint(t);return <React.Fragment key={t.id}><button className={'pin '+(progress.turtles?.[t.id]?'done':'')} style={{left:pt.x+'%',top:pt.y+'%'}} onClick={()=>nav('turtle',{id:t.id})}>{t.number}</button><span className="pinLabel" style={{left:pt.x+'%',top:pt.y+'%'}}>{t.name}</span></React.Fragment>})}</div><p className="footerNote">Map uses the real Turtle Trail GPS coordinates from the handoff package. {err&&<span className="warn">Location: {err}</span>}</p><div className="sectionTitle"><h2>Nearby list</h2><span className="badge">{loc?'sorted by distance':'tap Use my location'}</span></div><div className="grid two">{sorted.map(t=><div className="listRow" key={t.id} onClick={()=>nav('turtle',{id:t.id})}><div><b>#{t.number} {t.name}</b><p>{t.artist} {t.distance!=null?`• ${t.distance.toFixed(2)} mi`:''}</p></div><Navigation color="var(--gold)"/></div>)}</div></section>}
-function ScanScreen({scan,progress}){const [payload,setPayload]=useState('borderlands://turtle/1');return <section><div className="hero"><div><div className="kicker">Universal QR Scanner</div><h2>Scan once. Unlock the right adventure reward.</h2><p>Camera integration placeholder for the browser build. The simulator recognizes turtle QR payloads from the iOS handoff map.</p></div><div className="scanBox"><div><div className="qrFrame"></div><p className="footerNote">Camera permission and live QR decode can be added in the next engineering pass.</p></div></div></div><div className="card"><h3>Scan simulator</h3><input value={payload} onChange={e=>setPayload(e.target.value)} style={{width:'100%',padding:12,borderRadius:12,border:'1px solid #385676',background:'#071120',color:'white'}}/><div className="actions" style={{marginTop:12}}><button className="btn" onClick={()=>scan(payload)}>Process QR</button><button className="btn secondary" onClick={()=>setPayload('ruralroutes://unlock/turtle/7')}>Try Earp</button></div>{progress.lastScan&&<p className={progress.lastScan.ok?'ok':'warn'}>{progress.lastScan.ok?'Unlocked '+(progress.lastScan.name||'item'):'No matching item found'}.</p>}</div></section>}
-function Collection({id,nav}){const c=collections.find(x=>x.id===id);if(!c)return <div/>;if(id==='murals')return <section><div className="sectionTitle"><h2>Caldwell Mural Quest</h2><span className="badge">Walking tour</span></div><div className="card imageCard"><img src="/assets/CaldwellMuralQuestHandout.png" style={{height:'auto'}}/><div className="pad"><p>Handout-style mural quest from the iOS assets. Next pass can split this into individual stops with QR/photo check-ins.</p></div></div></section>;if(id==='legends')return <section><div className="sectionTitle"><h2>Borderlands Legends</h2><span className="badge">Production artwork</span></div><div className="grid two"><div className="card imageCard"><img src="/assets/cards/legends/BorderlandLegendsFront.jpeg" style={{height:'auto'}}/><div className="pad"><h3>Front collection sheet</h3></div></div><div className="card imageCard"><img src="/assets/cards/legends/BorderlandLegendsBack.jpeg" style={{height:'auto'}}/><div className="pad"><h3>Back collection sheet</h3></div></div></div><p className="footerNote">Phase 4 preserves your original asset. A future card-slicing pass can turn this into 8 individual flip cards.</p></section>;let cards=cardAssets[id]||[];return <section><div className="sectionTitle"><h2>{c.title}</h2><span className="badge">{cards.length} cards</span></div><div className="collectionGrid">{cards.map((card,i)=><div className="cardArt" key={i} onClick={()=>nav('collection',{id})}><img src={card.front} onError={e=>e.currentTarget.style.display='none'}/><div className="label"><b>{card.title}</b><p className="footerNote">Tap support for flip viewer planned.</p></div></div>)}</div></section>}
-function Rewards({progress,discovered,scanned,points}){let viewed=Object.keys(progress.viewedShells||{}).length;return <section><div className="sectionTitle"><h2>Rewards</h2><span className="badge"><Trophy size={14}/> Trophy Case</span></div><div className="miniStats"><Stat n={points} l="Explorer points"/><Stat n={discovered} l="GPS discoveries"/><Stat n={scanned} l="QR scans"/><Stat n={viewed} l="Shell stories"/></div><div className="grid three" style={{marginTop:16}}>{achievements.map(a=><div className="card" key={a.id}><span className="badge"><Award size={14}/> Achievement</span><h3>{a.name}</h3><p><b>Requirement:</b> {a.requirement}</p><p><b>Reward:</b> {a.reward}</p></div>)}</div></section>}
-function Profile({progress,setProgress,points,discovered,scanned}){return <section><div className="hero"><div><div className="kicker">Explorer Profile</div><h2>Level {Math.max(1,Math.floor(points/500)+1)}</h2><p>{points} points earned. Next level at {Math.ceil((points+1)/500)*500}.</p><div className="progress"><span style={{width:(points%500)/5+'%'}}/></div></div><div className="miniStats"><Stat n={discovered} l="Turtles"/><Stat n={scanned} l="Scans"/><Stat n={Object.keys(progress.stamps||{}).length} l="Stamps"/><Stat n={Object.keys(progress.unlockedCards||{}).length} l="Cards"/></div></div><div className="grid two"><div className="card"><h3>Passport stamps</h3><div className="chipbar">{towns.map(t=><span className={'chip '+(progress.stamps?.[t.id]?'active':'')} key={t.id}>{t.stampSymbol} {t.name}</span>)}</div></div><div className="card"><h3>Showcase mode</h3><p>Screenshot-ready profile and trophy case for demos, sponsors, and tourism presentations.</p></div></div></section>}
-function Admin({progress,setProgress}){const [json,setJson]=useState(JSON.stringify(progress,null,2));function importIt(){try{setProgress(JSON.parse(json));alert('Imported')}catch(e){alert('Invalid JSON')}}function exportIt(){const blob=new Blob([JSON.stringify(progress,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='rural-routes-demo-progress.json';a.click()}return <section><div className="sectionTitle"><h2>Admin / Demo Tools</h2><span className="badge">Local browser mode</span></div><div className="grid two adminGrid"><div className="card"><h3>Demo integrity settings</h3><label className="switch">Easy unlocks <input type="checkbox" checked={!!progress.demo?.easyUnlock} onChange={e=>setProgress(p=>({...p,demo:{...p.demo,easyUnlock:e.target.checked}}))}/></label><label className="switch">Field testing mode <input type="checkbox" checked={!!progress.demo?.fieldMode} onChange={e=>setProgress(p=>({...p,demo:{...p.demo,fieldMode:e.target.checked}}))}/></label><div className="actions" style={{marginTop:16}}><button className="btn" onClick={exportIt}><Download/> Export</button><button className="btn secondary" onClick={importIt}><Upload/> Import</button><button className="btn ghost" onClick={()=>{localStorage.removeItem('rr-progress-v4');location.reload()}}><RotateCcw/> Reset</button></div></div><div className="card"><h3>Progress JSON</h3><textarea value={json} onChange={e=>setJson(e.target.value)}/></div><div className="card"><h3>Asset Manager</h3><p>Phase 4 keeps the iOS admin concept: photos, GPS, QR payloads, hint text, point values, and export/import. Full cloud sync should come after the UX stabilizes.</p></div><div className="card"><h3>Route Builder</h3><p>Story paths and route definitions are included as data and displayed in the PWA.</p></div></div></section>}
-function Modal({data,close,ctx}){return <div className="modalWrap" onClick={close}><div className="modal" onClick={e=>e.stopPropagation()}><button className="btn secondary close" onClick={close}>Close</button>{data.type==='scan'&&<><h2>Unlocked: {data.t.name}</h2><img src={data.t.image} style={{width:'100%',borderRadius:18,maxHeight:420,objectFit:'cover'}}/><p>{data.t.behindTheShell}</p><button className="btn" onClick={()=>{close();ctx.nav('turtle',{id:data.t.id})}}>Open turtle</button></>}</div></div>}
+const asset = (name) => `/assets/${name}`;
+const metersToMiles = (meters) => meters / 1609.344;
+const ft = (meters) => Math.round(meters * 3.28084);
 
-createRoot(document.getElementById('root')).render(<App/>);
+function haversine(a, b) {
+  if (!a || !b) return Infinity;
+  const R = 6371000;
+  const dLat = (b.lat - a.lat) * Math.PI / 180;
+  const dLon = (b.lng - a.lng) * Math.PI / 180;
+  const lat1 = a.lat * Math.PI / 180;
+  const lat2 = b.lat * Math.PI / 180;
+  const s = Math.sin(dLat/2)**2 + Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLon/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+
+function bearing(from, to) {
+  if (!from || !to) return 0;
+  const lat1 = from.lat * Math.PI / 180;
+  const lat2 = to.lat * Math.PI / 180;
+  const dLon = (to.lng - from.lng) * Math.PI / 180;
+  const y = Math.sin(dLon) * Math.cos(lat2);
+  const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+  return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+}
+
+function useLocalStorage(key, fallback) {
+  const [value, setValue] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+  });
+  useEffect(() => { localStorage.setItem(key, JSON.stringify(value)); }, [key, value]);
+  return [value, setValue];
+}
+
+function useGeo() {
+  const [loc, setLoc] = useState(null);
+  const [heading, setHeading] = useState(null);
+  const [status, setStatus] = useState('Location not started');
+  useEffect(() => {
+    if (!navigator.geolocation) { setStatus('Geolocation unavailable'); return; }
+    const id = navigator.geolocation.watchPosition(
+      (pos) => { setLoc({ lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy }); setStatus('Location active'); },
+      (err) => setStatus(err.message),
+      { enableHighAccuracy: true, maximumAge: 3000, timeout: 15000 }
+    );
+    const onOrient = (event) => {
+      const h = event.webkitCompassHeading ?? (event.alpha == null ? null : 360 - event.alpha);
+      if (Number.isFinite(h)) setHeading(h);
+    };
+    window.addEventListener('deviceorientationabsolute', onOrient, true);
+    window.addEventListener('deviceorientation', onOrient, true);
+    return () => { navigator.geolocation.clearWatch(id); window.removeEventListener('deviceorientationabsolute', onOrient); window.removeEventListener('deviceorientation', onOrient); };
+  }, []);
+  return { loc, heading, status };
+}
+
+function useData() {
+  const [data, setData] = useState(seed);
+  const [source, setSource] = useState('local demo seed');
+  useEffect(() => {
+    async function load() {
+      if (!isSupabaseConfigured) return;
+      try {
+        const [towns, cards, locations, achievements] = await Promise.all([
+          supabase.from('towns').select('*'),
+          supabase.from('cards').select('*'),
+          supabase.from('locations').select('*'),
+          supabase.from('achievements').select('*')
+        ]);
+        if (!towns.error && towns.data?.length) {
+          setSource('Supabase live content + local demo quest layer');
+          setData(prev => ({ ...prev, towns: towns.data, supabaseCards: cards.data ?? [], supabaseLocations: locations.data ?? [], supabaseAchievements: achievements.data ?? [] }));
+        }
+      } catch (e) { console.warn('Supabase fallback', e); }
+    }
+    load();
+  }, []);
+  return { data, source };
+}
+
+function iconHtml(color, label) {
+  return L.divIcon({
+    html: `<div class="map-pin" style="--pin:${color}">${label}</div>`,
+    className: 'rr-pin',
+    iconSize: [34, 34], iconAnchor: [17, 17]
+  });
+}
+
+function Recenter({ center }) {
+  const map = useMap();
+  useEffect(() => { if (center) map.setView([center.lat, center.lng], map.getZoom() || 15); }, [center]);
+  return null;
+}
+
+function UserMarker({ loc, heading }) {
+  if (!loc) return null;
+  return <Marker position={[loc.lat, loc.lng]} icon={L.divIcon({ html: `<div class="you-dot"><span class="heading-cone" style="transform:rotate(${heading ?? 0}deg)"></span></div>`, className: 'you-icon', iconSize: [42,42], iconAnchor: [21,21] })}><Popup>You are here</Popup></Marker>;
+}
+
+function TargetArrowOverlay({ loc, target, revealed }) {
+  if (!loc || !target || !revealed) return null;
+  const angle = bearing(loc, target.coordinate);
+  const distance = haversine(loc, target.coordinate);
+  return <div className="target-arrow-hud">
+    <div className="target-arrow" style={{ transform: `rotate(${angle}deg)` }}>▲</div>
+    <div><strong>Target</strong><br />{ft(distance)} ft</div>
+  </div>;
+}
+
+function QuestMap({ quest, targets, loc, heading, activeTarget, targetArrowVisible }) {
+  const center = loc || targets[0]?.coordinate || { lat: 37.0322, lng: -97.6070 };
+  return <div className="map-wrap">
+    <MapContainer center={[center.lat, center.lng]} zoom={15} scrollWheelZoom className="leaflet-map">
+      <TileLayer attribution='&copy; OpenStreetMap' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <Recenter center={loc || targets[0]?.coordinate} />
+      <UserMarker loc={loc} heading={heading} />
+      {loc && <CircleMarker center={[loc.lat, loc.lng]} radius={Math.min(40, Math.max(10, (loc.accuracy || 25) / 4))} pathOptions={{ color: '#2d8cff', fillOpacity: 0.08 }} />}
+      {targets.map((t, i) => <Marker key={t.id} position={[t.coordinate.lat, t.coordinate.lng]} icon={iconHtml(t.id === activeTarget?.id ? '#f59e0b' : '#7a4a2d', t.icon || (i+1))}>
+        <Popup><strong>{t.name}</strong><br />{t.hint || quest.title}</Popup>
+      </Marker>)}
+      {loc && activeTarget && targetArrowVisible && <Polyline positions={[[loc.lat, loc.lng], [activeTarget.coordinate.lat, activeTarget.coordinate.lng]]} pathOptions={{ color: '#f59e0b', dashArray: '6 8' }} />}
+    </MapContainer>
+    <TargetArrowOverlay loc={loc} target={activeTarget} revealed={targetArrowVisible} />
+  </div>
+}
+
+function Explore({ data, progress, setScreen, loc }) {
+  const quests = data.quests.map(q => {
+    const targets = data.targets[q.targetsSource] || [];
+    const remaining = targets.filter(t => !progress.discoveries.includes(t.id));
+    const nearest = remaining.map(t => ({ t, d: haversine(loc, t.coordinate) })).sort((a,b)=>a.d-b.d)[0];
+    return { ...q, targets, remaining, nearestDistance: nearest?.d ?? Infinity };
+  }).sort((a,b) => a.nearestDistance - b.nearestDistance);
+  const nearbyRewards = data.businesses.filter(b => !loc || haversine(loc, b.coordinate) < 1609);
+  return <main className="screen explore">
+    <HeroLogo />
+    <section className="panel intro">
+      <p className="eyebrow">Quest-first discovery</p>
+      <h1>Choose your adventure.</h1>
+      <p>Hunt one quest at a time. Heartbeat haptics only start close to the target; directions stay hidden until the last hint.</p>
+    </section>
+    <section><h2>Nearby Adventures</h2>
+      <div className="quest-list">
+        {quests.map(q => <button className="quest-card" key={q.id} onClick={() => setScreen({ name: 'quest', questId: q.id })}>
+          <div className="quest-icon">{q.emoji}</div><div className="grow"><strong>{q.title}</strong><span>{q.subtitle}</span><small>{q.targets.length - q.remaining.length}/{q.targets.length} complete · {Number.isFinite(q.nearestDistance) ? `${metersToMiles(q.nearestDistance).toFixed(2)} mi nearest` : 'targets ready'}</small></div><Route /></button>)}
+      </div>
+    </section>
+    <section><h2>Rewards Nearby</h2>
+      <div className="reward-row">{nearbyRewards.map(b => <div className="reward-card" key={b.id}><Gift /><strong>{b.name}</strong><span>{b.promotion.title}</span><small>{b.promotion.reward}</small></div>)}</div>
+    </section>
+  </main>;
+}
+
+function HeroLogo() { return <div className="hero-logo"><img src={asset('rural_routes_main_logo.jpg')} alt="Rural Routes Explorer" /></div>; }
+
+function QuestScreen({ data, progress, setProgress, screen, setScreen, loc, heading }) {
+  const quest = data.quests.find(q => q.id === screen.questId) || data.quests[0];
+  const targets = data.targets[quest.targetsSource] || [];
+  const remaining = targets.filter(t => !progress.discoveries.includes(t.id));
+  const [activeId, setActiveId] = useState(screen.targetId || remaining[0]?.id || targets[0]?.id);
+  const [hunt, setHunt] = useState(false);
+  const [hintLevel, setHintLevel] = useState(0);
+  const activeTarget = targets.find(t => t.id === activeId) || targets[0];
+  const distance = loc && activeTarget ? haversine(loc, activeTarget.coordinate) : Infinity;
+  const close = distance < 91.44; // 300 ft
+  const discovery = distance < (activeTarget?.radiusMeters || 25);
+  const strength = Number.isFinite(distance) ? Math.max(1, Math.min(10, Math.ceil((1 - Math.min(distance, 300) / 300) * 10))) : 1;
+
+  useEffect(() => {
+    if (!hunt || !close || !navigator.vibrate) return;
+    const interval = distance < 15 ? 1800 : distance < 30 ? 3000 : distance < 60 ? 5000 : 8000;
+    const pulse = () => navigator.vibrate([90, 120, 130]);
+    pulse();
+    const id = setInterval(pulse, interval);
+    return () => clearInterval(id);
+  }, [hunt, close, Math.round(distance / 10)]);
+
+  function unlock() {
+    if (!activeTarget) return;
+    if (!progress.discoveries.includes(activeTarget.id)) {
+      setProgress(p => ({ ...p, discoveries: [...p.discoveries, activeTarget.id], cards: [...new Set([...p.cards, activeTarget.cardId || activeTarget.id])] }));
+      if (navigator.vibrate) navigator.vibrate([200,100,200,100,400]);
+    }
+  }
+
+  return <main className="screen quest-detail">
+    <button className="back" onClick={() => setScreen({ name: 'explore' })}>← Explore</button>
+    <section className="panel quest-hero"><div className="quest-icon big">{quest.emoji}</div><div><p className="eyebrow">{quest.collection}</p><h1>{quest.title}</h1><p>{quest.subtitle}</p><strong>{targets.length - remaining.length}/{targets.length} complete</strong></div></section>
+    <section className="panel active-hunt"><h2>{hunt ? 'Heartbeat Hunt Active' : 'Start Hunt'}</h2><p>Target: {hintLevel >= 2 ? activeTarget?.name : 'Unknown ' + quest.shortName}</p><div className="signal">{Array.from({ length: 10 }, (_, i) => <span key={i} className={i < strength ? 'on' : ''}></span>)}</div><small>{Number.isFinite(distance) ? `${ft(distance)} ft from active target` : 'Enable location for distance and haptics'}</small>
+      <div className="actions"><button onClick={() => setHunt(!hunt)}>{hunt ? 'Stop Hunt' : 'Start Hunt'}</button><button onClick={() => setHintLevel(Math.max(hintLevel,1))}>Text Hint</button><button onClick={() => setHintLevel(Math.max(hintLevel,3))}>Direction Hint</button><button onClick={() => { setHintLevel(4); }}>Reveal Exact Location</button>{(discovery || progress.easyUnlocks) && <button className="gold" onClick={unlock}>Unlock Discovery</button>}</div>
+      {hintLevel >= 1 && <p className="hint">Hint: {activeTarget?.hint}</p>}
+    </section>
+    <section><h2>{quest.mapTitle}</h2><QuestMap quest={quest} targets={targets} loc={loc} heading={heading} activeTarget={activeTarget} targetArrowVisible={hintLevel >= 3} /></section>
+    <section><h2>Quest Targets</h2><div className="target-list">{targets.map(t => <button key={t.id} className={t.id === activeId ? 'selected' : ''} onClick={() => { setActiveId(t.id); setHintLevel(0); }}><span>{progress.discoveries.includes(t.id) ? '✅' : '○'}</span>{t.name}</button>)}</div></section>
+  </main>;
+}
+
+function MapScreen({ data, loc, heading, setScreen }) {
+  const targets = Object.values(data.targets).flat();
+  return <main className="screen"><h1>Regional Map</h1><p>All public map views use the same user location layer, heading cone, and controls.</p><QuestMap quest={{title:'Regional Map'}} targets={targets} loc={loc} heading={heading} activeTarget={null} targetArrowVisible={false} /><button onClick={() => setScreen({ name: 'explore' })}>Back to Explore</button></main>
+}
+
+function Scan({ data, progress, setProgress }) {
+  const [payload, setPayload] = useState('ruralroutes://unlock/turtle/11');
+  const [message, setMessage] = useState('');
+  function redeem() {
+    const match = Object.values(data.targets).flat().find(t => t.qrPayload === payload || t.id === payload);
+    const promo = data.businesses.find(b => b.promotion.qrPayload === payload);
+    if (match) { setProgress(p => ({ ...p, discoveries: [...new Set([...p.discoveries, match.id])], cards: [...new Set([...p.cards, match.cardId || match.id])] })); setMessage(`Unlocked ${match.name}`); }
+    else if (promo) { setProgress(p => ({ ...p, promotions: [...new Set([...p.promotions, promo.promotion.id])] })); setMessage(`Redeemed ${promo.promotion.title}`); }
+    else setMessage('No matching QR payload found in demo data.');
+  }
+  return <main className="screen"><h1>Universal Scanner</h1><p>For web builds, connect a camera scanner such as zxing-js/browser or html5-qrcode. This demo also accepts QR payload text.</p><input value={payload} onChange={e=>setPayload(e.target.value)} /><button onClick={redeem}><ScanLine /> Redeem Payload</button>{message && <div className="panel success">{message}</div>}</main>
+}
+
+function Rewards({ data, progress }) {
+  const cards = data.cards.filter(c => progress.cards.includes(c.id));
+  const achievements = data.achievements.map(a => ({...a, complete: evaluateAchievement(a, progress, data)}));
+  return <main className="screen"><h1>Rewards</h1><section className="stats"><div><strong>{cards.length}</strong><span>Cards</span></div><div><strong>{progress.discoveries.length}</strong><span>Discoveries</span></div><div><strong>{achievements.filter(a=>a.complete).length}</strong><span>Achievements</span></div></section><h2>Achievement Showcase</h2><div className="badge-grid">{achievements.map(a => <div className={`badge ${a.complete ? 'earned' : ''}`} key={a.id}><Trophy /><strong>{a.name}</strong><small>{a.description}</small></div>)}</div></main>
+}
+function evaluateAchievement(a, p, data) {
+  if (a.type === 'discoveries') return p.discoveries.length >= a.count;
+  if (a.type === 'collection') return data.targets[a.source]?.every(t => p.discoveries.includes(t.id));
+  if (a.type === 'golden') return p.cards.some(id => data.cards.find(c => c.id === id && c.isGolden));
+  return false;
+}
+
+function Profile({ data, progress, setProgress }) {
+  const cards = data.cards.filter(c => progress.cards.includes(c.id));
+  return <main className="screen"><h1>Profile</h1><section className="panel"><h2>My Cards Binder</h2><p>Unlocked cards from every deck appear here, separated from collection checklists.</p><label className="switch"><input type="checkbox" checked={progress.easyUnlocks} onChange={e=>setProgress(p=>({...p, easyUnlocks:e.target.checked}))} /> Easy demo unlocks</label></section><div className="card-grid">{cards.map(c => <div className={`collect-card ${c.isGolden ? 'golden' : ''}`} key={c.id}><img src={asset(c.front)} /><strong>{c.name}</strong><small>{c.collection}{c.isGolden ? ' · GOLDEN' : ''}</small></div>)}</div><section className="panel"><h2>Screenshot Showcase</h2><div className="showcase"><img src={asset('rural_routes_main_logo.jpg')} /><strong>Explorer Trophy Case</strong><span>{cards.length} cards · {progress.discoveries.length} discoveries</span></div></section></main>
+}
+
+function Local({ data, progress }) {
+  return <main className="screen"><h1>Local / Buy Local</h1><p>Demonstrates business rewards, printable QR promotions, and discovery-triggered recommendations.</p><div className="business-list">{data.businesses.map(b => <div className="panel business" key={b.id}><Store /><h2>{b.name}</h2><p>{b.category}</p><strong>{b.promotion.title}</strong><span>{b.promotion.reward}</span><div className="print-sign"><h3>Rural Routes Reward</h3><div className="fake-qr">QR</div><small>{b.promotion.qrPayload}</small></div></div>)}</div></main>
+}
+
+function App() {
+  const { data, source } = useData();
+  const { loc, heading, status } = useGeo();
+  const [screen, setScreen] = useState({ name: 'explore' });
+  const [progress, setProgress] = useLocalStorage('rr-progress-v35d', { discoveries: [], cards: ['BL-01'], promotions: [], easyUnlocks: true });
+  const content = screen.name === 'quest' ? <QuestScreen data={data} progress={progress} setProgress={setProgress} screen={screen} setScreen={setScreen} loc={loc} heading={heading} /> : screen.name === 'map' ? <MapScreen data={data} loc={loc} heading={heading} setScreen={setScreen} /> : screen.name === 'scan' ? <Scan data={data} progress={progress} setProgress={setProgress} /> : screen.name === 'rewards' ? <Rewards data={data} progress={progress} /> : screen.name === 'profile' ? <Profile data={data} progress={progress} setProgress={setProgress} /> : screen.name === 'local' ? <Local data={data} progress={progress} /> : <Explore data={data} progress={progress} setScreen={setScreen} loc={loc} />;
+  return <><div className="app-status">{status} · Data: {source}</div>{content}<nav className="tabbar"><button onClick={()=>setScreen({name:'explore'})}><Compass/>Explore</button><button onClick={()=>setScreen({name:'map'})}><Map/>Map</button><button onClick={()=>setScreen({name:'scan'})}><ScanLine/>Scan</button><button onClick={()=>setScreen({name:'local'})}><Gift/>Local</button><button onClick={()=>setScreen({name:'rewards'})}><Trophy/>Rewards</button><button onClick={()=>setScreen({name:'profile'})}><User/>Profile</button></nav></>;
+}
+
+createRoot(document.getElementById('root')).render(<App />);
+if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
